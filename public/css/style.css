@@ -5736,49 +5736,12 @@ footer,
   }
 }
 
-/* 📍 모바일 화면(900px 이하): 푸터 '서비스 안내'를 '고객지원'과 동일하게 왼쪽 세로 수직 정렬 */
-@media (max-width: 900px) {
-  /* 1. 푸터 전체 및 메뉴 컬럼 왼쪽 정렬 통일 */
-  footer,
-  #app-footer,
-  .site-footer,
-  .footer-right,
-  .footer-menu-col {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important; /* 모든 요소 왼쪽 정렬 */
-    text-align: left !important;
-    width: 100% !important;
-  }
-
-  /* 2. '서비스 안내' 및 '고객지원' 리스트(ul) 세로 정렬 지정 */
-  .footer-menu-col ul {
-    display: flex !important;
-    flex-direction: column !important; /* 📍 세로 수직 나열 */
-    align-items: flex-start !important; /* 📍 왼쪽 끝 정렬 */
-    justify-content: flex-start !important;
-    gap: 12px !important; /* 항목 간 위아래 간격 */
-    margin: 0 !important;
-    padding: 0 !important;
-    list-style: none !important;
-    width: 100% !important;
-  }
-
-  /* 3. 메뉴 리스트 항목(li) 및 링크(a) 왼쪽 정렬 및 스타일 초기화 */
-  .footer-menu-col ul li,
-  .footer-menu-col ul li a {
-    display: block !important;
-    text-align: left !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: transparent !important; /* 타일 배경색 제거 */
-    border-radius: 0 !important;
-    color: #888888 !important; /* 고객지원 링크 글자색과 동일 지정 */
-    font-size: 14px !important;
-    width: auto !important;
-  }
-
-  .footer-menu-col ul li a:hover {
-    color: #ffffff !important;
+/* PC/웹버전 전용: 포트폴리오 상세보기 모달 내부 콘텐츠 좌측 이동 설정 */
+@media (min-width: 1024px) {
+  .portfolio-logo-blank,
+  .portfolio-detail-section,
+  .portfolio-detail-closing {
+    /* 원하시는 위치에 맞게 -80px, -100px, -120px 등으로 조절 가능합니다. */
+    transform: translateX(-50px) !important;
   }
 }
