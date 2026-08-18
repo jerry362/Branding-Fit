@@ -89,25 +89,42 @@ function showAuthErrorFromQuery() {
 function renderAuthNavigation(authState) {
     const loginTrigger = document.getElementById('nav-login-trigger');
     const mypageLink = document.getElementById('nav-mypage');
+    const authenticated = Boolean(authState?.authenticated);
 
     if (loginTrigger) {
-        loginTrigger.style.display = authState.authenticated ? 'none' : '';
-        if (!loginTrigger.dataset.authBound) {
-            loginTrigger.dataset.authBound = 'true';
-            loginTrigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                openLoginModal();
-            });
+        if (mypageLink) {
+            loginTrigger.style.display = authenticated ? 'none' : '';
+            if (!loginTrigger.dataset.authBound) {
+                loginTrigger.dataset.authBound = 'true';
+                loginTrigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openLoginModal();
+                });
+            }
+        } else {
+            loginTrigger.style.display = '';
+            loginTrigger.textContent = authenticated ? '마이페이지' : '로그인';
+            loginTrigger.setAttribute('href', authenticated ? '#/mypage' : '#');
+            loginTrigger.dataset.authenticated = authenticated ? 'true' : 'false';
+            if (!loginTrigger.dataset.authBound) {
+                loginTrigger.dataset.authBound = 'true';
+                loginTrigger.addEventListener('click', (e) => {
+                    if (loginTrigger.dataset.authenticated === 'true') {
+                        return;
+                    }
+                    e.preventDefault();
+                    openLoginModal();
+                });
+            }
         }
     }
 
     if (mypageLink) {
-        mypageLink.style.display = authState.authenticated ? 'inline-flex' : 'none';
+        mypageLink.style.display = authenticated ? 'inline-flex' : 'none';
         mypageLink.textContent = '마이페이지';
-        mypageLink.classList.toggle('is-authenticated', authState.authenticated);
+        mypageLink.classList.toggle('is-authenticated', authenticated);
         mypageLink.setAttribute('aria-disabled', 'false');
     }
-
 }
 
 function guardProtectedNavigation() {

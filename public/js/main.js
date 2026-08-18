@@ -23,21 +23,28 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 
 // Mobile GNB Menu Toggle Listener
 document.addEventListener('DOMContentLoaded', () => {
-    const mobileBtn = document.getElementById('mobile-menu-toggle');
-    const navMenu = document.getElementById('nav-menu-list');
+    const mobileMenuButton = document.getElementById("home-mobile-menu-toggle");
+    const mobileMenu = document.querySelector("nav .nav-menu");
 
-    if (mobileBtn && navMenu) {
-        mobileBtn.addEventListener('click', () => {
-            mobileBtn.classList.toggle('active');
-            navMenu.classList.toggle('mobile-open');
+    if (mobileMenuButton && mobileMenu) {
+        const closeMobileMenu = () => {
+            mobileMenuButton.classList.remove("active");
+            mobileMenu.classList.remove("mobile-open");
+            mobileMenuButton.setAttribute("aria-expanded", "false");
+        };
+
+        mobileMenuButton.addEventListener("click", () => {
+            const isOpen = mobileMenu.classList.toggle("mobile-open");
+            mobileMenuButton.classList.toggle("active", isOpen);
+            mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
         });
 
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileBtn.classList.remove('active');
-                navMenu.classList.remove('mobile-open');
-            });
+        mobileMenu.querySelectorAll("a, button").forEach((element) => {
+            element.addEventListener("click", closeMobileMenu);
+        });
+
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 640) closeMobileMenu();
         });
     }
 });

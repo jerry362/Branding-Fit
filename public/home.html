@@ -1,2826 +1,2723 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Branding Fit - AI 기반 브랜드 자동 생성 및 브랜딩 지원 플랫폼</title>
-    <!-- Pretendard 폰트 링크 -->
-    <link
-      rel="stylesheet"
-      as="style"
-      crossorigin
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-    />
-    <!-- GSAP 및 ScrollTrigger CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <style>
-      /* 회전 각도 애니메이션을 위한 사용자 정의 프로퍼티 선언 */
-      @property --angle {
-        syntax: "<angle>";
-        initial-value: 0deg;
-        inherits: false;
-      }
 
-      :root {
-        --page-gutter: clamp(24px, 4.2vw, 80px);
-        --section-min-height: 760px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branding Fit - AI 기반 브랜드 자동 생성 및 브랜딩 지원 플랫폼</title>
+  <!-- Pretendard 폰트 링크 -->
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- GSAP 및 ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    /* 회전 각도 애니메이션을 위한 사용자 정의 프로퍼티 선언 */
+    @property --angle {
+      syntax: "<angle>";
+      initial-value: 0deg;
+      inherits: false;
+    }
 
-      /* CSS Reset & 기본 설정 */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body,
-      html {
-        width: 100%;
-        background-color: #121212;
-        color: #ffffff;
-        font-family: "Pretendard", sans-serif;
-        overflow-x: hidden;
-      }
+    :root {
+      --page-gutter: clamp(24px, 4.2vw, 80px);
+      --section-min-height: 760px;
+    }
 
-      /* 1. 네비게이션 섹션 (높이: 80px) */
-      nav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 80px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 var(--page-gutter);
-        background: transparent;
-        z-index: 1000;
-      }
-      .nav-logo {
-        font-size: 24px;
-        font-weight: 700;
-        color: #ffffff;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .nav-menu {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-      }
-      .home-mobile-menu-btn {
-        display: none;
-        width: 36px;
-        height: 36px;
-        border: 0;
-        background: transparent;
-        padding: 6px;
-        cursor: pointer;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        z-index: 1002;
-      }
-      .home-mobile-menu-btn span {
-        display: block;
-        width: 100%;
-        height: 2px;
-        border-radius: 999px;
-        background: #ffffff;
-        transition:
-          transform 0.2s ease,
-          opacity 0.2s ease;
-      }
-      .home-mobile-menu-btn.active span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-      }
-      .home-mobile-menu-btn.active span:nth-child(2) {
-        opacity: 0;
-      }
-      .home-mobile-menu-btn.active span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-      }
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        list-style: none;
-      }
-      .nav-links a {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        height: 40px;
-        font-size: 14px;
-        line-height: 1;
-        color: #b3b3b3;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-      .nav-links a:hover {
-        color: #ffffff;
-        font-weight: 600;
-      }
-      .nav-links a::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: #ffffff;
-        transition:
-          width 0.3s ease,
-          opacity 0.3s ease;
-      }
-      .nav-links a:hover::after {
-        width: 100%;
-      }
-      .nav-auth {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-      }
-      .nav-auth a {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        height: 40px;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 1;
-        color: #b3b3b3;
-        text-decoration: none;
-        transition: color 0.3s ease;
-      }
-      .nav-auth a:hover {
-        color: #ffffff;
-        font-weight: 600;
-      }
-      .nav-auth a::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background-color: #ffffff;
-        transition:
-          width 0.3s ease,
-          opacity 0.3s ease;
-      }
-      .nav-auth a:hover::after {
-        width: 100%;
-      }
-      .nav-auth button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 40px;
-        font-size: 13px;
-        line-height: 1;
-        color: #ffffff;
-        text-decoration: none;
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 0 20px;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      .nav-auth button:hover {
-        background: #4f46e5;
-        border-color: #4f46e5;
-        box-shadow: 0 0 15px rgba(79, 70, 229, 0.5);
-      }
+    /* CSS Reset & 기본 설정 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      /* 2. 히어로 섹션 (높이: 1080px) */
-      .hero-section {
-        position: relative;
-        width: 100%;
-        min-height: clamp(760px, 100svh, 1080px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background-color: #121212;
-        overflow: hidden;
-      }
-      .hero-bg {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        overflow: hidden;
-        background: #121212;
-      }
-      .hero-bg-video {
-        position: absolute;
-        inset: -32px;
-        width: calc(100% + 64px);
-        height: calc(100% + 64px);
-        object-fit: cover;
-        filter: blur(18px) saturate(1.08) brightness(0.62);
-        transform: scale(1.05);
-      }
-      .hero-bg::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(
-            circle at 20% 30%,
-            rgba(79, 70, 229, 0.18) 0%,
-            transparent 42%
-          ),
-          radial-gradient(
-            circle at 80% 70%,
-            rgba(236, 72, 153, 0.16) 0%,
-            transparent 42%
-          ),
-          rgba(18, 18, 18, 0.38);
-      }
-      .hero-content {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .hero-badge {
-        font-size: 18px;
-        color: #ffffff;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .hero-title {
-        font-size: clamp(39px, 3.35vw, 64px);
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+    body,
+    html {
+      width: 100%;
+      background-color: #121212;
+      color: #ffffff;
+      font-family: "Pretendard", sans-serif;
+      overflow-x: hidden;
+    }
 
-      /* 📍 아래 클래스 구문을 추가하여 PC 화면에서도 줄바꿈이 적용되도록 설정합니다. */
-.hero-title-line {
-  display: block;
-  white-space: nowrap;
-}
+    /* 1. 네비게이션 섹션 (높이: 80px) */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 var(--page-gutter);
+      background: transparent;
+      z-index: 1000;
+    }
 
-      .hero-subtitle {
-        font-size: 15px;
-        color: #a0a0a0;
-        margin-bottom: 50px;
-      }
+    .nav-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-      /* 입력 창 Wrapper: 724*128, 라운드 25 (박스는 고정) */
-      .input-box-wrapper {
-        position: relative;
-        width: min(724px, calc(100vw - 48px));
-        min-height: 128px;
-        border-radius: 25px;
-        background: #121212;
-        z-index: 1;
-      }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
 
-      /* 본체 내부 컨테이너 (움직이지 않고 제자리에 고정) */
-      .input-box-inner {
-        position: relative;
-        width: 100%;
-        min-height: 128px;
-        background-color: #121212;
-        border-radius: 25px;
-        z-index: 2;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px 24px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
+    .home-mobile-menu-btn {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border: 0;
+      background: transparent;
+      padding: 6px;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      z-index: 1002;
+    }
 
-      /* 1) 2가지 색상(#4F46E5, #EC4899)으로만 이루어진 회전 획 효과 (::before) */
-      .input-box-wrapper::before,
-      .input-box-wrapper::after {
-        content: "";
-        position: absolute;
-        inset: -3px;
-        border-radius: 28px;
-        background: conic-gradient(
-          from var(--angle),
+    .home-mobile-menu-btn span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      border-radius: 999px;
+      background: #ffffff;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .home-mobile-menu-btn.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .home-mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .home-mobile-menu-btn.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      font-size: 14px;
+      line-height: 1;
+      color: #b3b3b3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ffffff;
+      transition:
+        width 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-auth {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-auth a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1;
+      color: #b3b3b3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-auth a:hover {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .nav-auth a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #ffffff;
+      transition:
+        width 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+    .nav-auth a:hover::after {
+      width: 100%;
+    }
+
+    .nav-auth button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      font-size: 13px;
+      line-height: 1;
+      color: #ffffff;
+      text-decoration: none;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 0 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-auth button:hover {
+      background: #4f46e5;
+      border-color: #4f46e5;
+      box-shadow: 0 0 15px rgba(79, 70, 229, 0.5);
+    }
+
+    /* 2. 히어로 섹션 (높이: 1080px) */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      min-height: clamp(760px, 100svh, 1080px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-color: #121212;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      background: #121212;
+    }
+
+    .hero-bg-video {
+      position: absolute;
+      inset: -32px;
+      width: calc(100% + 64px);
+      height: calc(100% + 64px);
+      object-fit: cover;
+      filter: blur(18px) saturate(1.08) brightness(0.62);
+      transform: scale(1.05);
+    }
+
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%,
+          rgba(79, 70, 229, 0.18) 0%,
+          transparent 42%),
+        radial-gradient(circle at 80% 70%,
+          rgba(236, 72, 153, 0.16) 0%,
+          transparent 42%),
+        rgba(18, 18, 18, 0.38);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-badge {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-title {
+      font-size: clamp(39px, 3.35vw, 64px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #b3b3b3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* 📍 아래 클래스 구문을 추가하여 PC 화면에서도 줄바꿈이 적용되도록 설정합니다. */
+    .hero-title-line {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: #a0a0a0;
+      margin-bottom: 50px;
+    }
+
+    /* 입력 창 Wrapper: 724*128, 라운드 25 (박스는 고정) */
+    .input-box-wrapper {
+      position: relative;
+      width: min(724px, calc(100vw - 48px));
+      min-height: 128px;
+      border-radius: 25px;
+      background: #121212;
+      z-index: 1;
+    }
+
+    /* 본체 내부 컨테이너 (움직이지 않고 제자리에 고정) */
+    .input-box-inner {
+      position: relative;
+      width: 100%;
+      min-height: 128px;
+      background-color: #121212;
+      border-radius: 25px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* 1) 2가지 색상(#4F46E5, #EC4899)으로만 이루어진 회전 획 효과 (::before) */
+    .input-box-wrapper::before,
+    .input-box-wrapper::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 28px;
+      background: conic-gradient(from var(--angle),
           #4f46e5,
           #ec4899,
-          #4f46e5
-        );
-        z-index: -1;
-        animation: rotate-glow 4s linear infinite;
+          #4f46e5);
+      z-index: -1;
+      animation: rotate-glow 4s linear infinite;
+    }
+
+    /* 2) 2가지 색상 기반 뒤쪽 글로우(Blur) 효과 (::after) */
+    .input-box-wrapper::after {
+      filter: blur(20px);
+      opacity: 0.7;
+      z-index: -2;
+    }
+
+    /* 회전 애니메이션 키프레임 */
+    @keyframes rotate-glow {
+      0% {
+        --angle: 0deg;
       }
 
-      /* 2) 2가지 색상 기반 뒤쪽 글로우(Blur) 효과 (::after) */
-      .input-box-wrapper::after {
-        filter: blur(20px);
-        opacity: 0.7;
-        z-index: -2;
+      100% {
+        --angle: 360deg;
+      }
+    }
+
+    .input-main-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .input-main-row input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 15px;
+      width: 80%;
+      font-family: "Pretendard", sans-serif;
+    }
+
+    .input-main-row input::placeholder {
+      color: #666666;
+    }
+
+    /* 완벽한 중앙 정렬이 적용된 원형 종이비행기 전송 버튼 */
+    .submit-btn {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4f46e5, #ec4899);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: 0;
+      /* 내부 여백 초기화로 완벽한 센터 정렬 */
+    }
+
+    .submit-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .submit-btn svg {
+      position: relative;
+      z-index: 1;
+      display: block;
+      /* 마진 오차 방지 */
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* 하단 업종 및 키워드 영역 */
+    .input-sub-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      position: relative;
+    }
+
+    .input-left-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dropdown-wrapper {
+      position: relative;
+    }
+
+    .dropdown-btn {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #b3b3b3;
+      padding: 6px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: "Pretendard", sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-btn:hover {
+      border-color: rgba(79, 70, 229, 0.6);
+      color: #ffffff;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      bottom: 45px;
+      left: 0;
+      width: 220px;
+      background: rgba(18, 18, 18, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      display: none;
+      flex-direction: column;
+      padding: 8px;
+      z-index: 100;
+      list-style: none;
+      text-align: left;
+    }
+
+    .dropdown-menu.show {
+      display: flex;
+    }
+
+    .dropdown-item {
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #cccccc;
+      cursor: pointer;
+      border-radius: 8px;
+      transition:
+        background 0.2s,
+        color 0.2s;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(79, 70, 229, 0.3);
+      color: #ffffff;
+    }
+
+    .custom-industry-input {
+      width: 150px;
+      display: none;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      color: #ffffff;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-family: "Pretendard", sans-serif;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .custom-industry-input::placeholder {
+      color: #777;
+    }
+
+    .custom-industry-input:focus {
+      border-color: rgba(79, 70, 229, 0.8);
+    }
+
+    /* 키워드 영역: 평소엔 버튼 형태, 누르면 인풋창으로 변환 */
+    .keyword-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .keyword-toggle-btn {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #b3b3b3;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: "Pretendard", sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .keyword-toggle-btn:hover {
+      border-color: rgba(79, 70, 229, 0.6);
+      color: #ffffff;
+    }
+
+    .keyword-input-box {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: "Pretendard", sans-serif;
+      outline: none;
+      width: 140px;
+      display: none;
+      /* 기본 숨김 */
+      transition: all 0.3s ease;
+    }
+
+    .keyword-input-box::placeholder {
+      color: #777;
+    }
+
+    .keyword-input-box:focus {
+      border-color: rgba(79, 70, 229, 0.8);
+    }
+
+    .keyword-divider {
+      width: 1px;
+      height: 16px;
+      background-color: rgba(255, 255, 255, 0.25);
+      display: none;
+    }
+
+    .keyword-tags-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .keyword-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    .keyword-tag .remove-tag {
+      cursor: pointer;
+      color: #888;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .keyword-tag .remove-tag:hover {
+      color: #ff4d4d;
+    }
+
+    /* 3. 포트폴리오 섹션 */
+    .portfolio-section {
+      position: relative;
+      width: 100%;
+      height: max(var(--section-min-height), 100svh);
+      background-color: #121212;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .portfolio-fixed-title {
+      position: absolute;
+      top: clamp(96px, 11vh, 128px);
+      left: var(--page-gutter);
+      font-size: 44px;
+      font-weight: 700;
+      color: #ffffff;
+      z-index: 12;
+    }
+
+    .portfolio-redefinition-backdrop {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      right: auto;
+      width: min(900px, calc(100vw - 48px));
+      transform: translate(-50%, -50%);
+      text-align: center;
+      opacity: 0;
+      clip-path: inset(0 0 0 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .portfolio-intro-handoff {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: max(var(--section-min-height), 100svh);
+      text-align: center;
+      pointer-events: none;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .portfolio-intro-step {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .portfolio-intro-copy {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+      z-index: 2;
+    }
+
+    .portfolio-intro-visual {
+      position: absolute;
+      width: clamp(540px, 54vw, 1050px);
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+      z-index: 2;
+    }
+
+    .portfolio-intro-visual img,
+    .portfolio-intro-visual video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .portfolio-intro-step:nth-child(1) .portfolio-intro-visual {
+      top: 14%;
+      left: 6%;
+    }
+
+    .portfolio-intro-step:nth-child(2) .portfolio-intro-visual {
+      top: 31%;
+      right: 5%;
+    }
+
+    .portfolio-intro-step:nth-child(3) .portfolio-intro-visual {
+      top: 57%;
+      left: 6%;
+    }
+
+    .portfolio-intro-step:nth-child(4) .portfolio-intro-visual {
+      top: 22%;
+      right: 6%;
+    }
+
+    .portfolio-intro-step:nth-child(5) .portfolio-intro-visual {
+      top: 52%;
+      left: 6%;
+    }
+
+    .portfolio-intro-step:nth-child(6) .portfolio-intro-visual {
+      top: 46%;
+      right: 6%;
+    }
+
+    .portfolio-intro-handoff::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(90deg,
+          rgba(18, 18, 18, 0.54),
+          rgba(18, 18, 18, 0) 35%,
+          rgba(18, 18, 18, 0) 65%,
+          rgba(18, 18, 18, 0.54)),
+        radial-gradient(circle at 50% 50%,
+          rgba(18, 18, 18, 0) 0%,
+          rgba(18, 18, 18, 0.18) 58%,
+          rgba(18, 18, 18, 0.42) 100%);
+      pointer-events: none;
+    }
+
+    .portfolio-track {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: max(var(--section-min-height), 100svh);
+      display: flex;
+      align-items: center;
+      gap: clamp(40px, 5.2vw, 100px);
+      padding-left: clamp(260px, 28vw, 520px);
+      padding-right: 42vw;
+      will-change: transform;
+      z-index: 5;
+    }
+
+    .portfolio-item {
+      width: clamp(360px, 38.5vw, 740px);
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .portfolio-logo-box {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 740 / 475;
+      background: #1a1a1a;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+      color: #ddd;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+
+    .portfolio-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .portfolio-logo-box:hover {
+      border-color: rgba(79, 70, 229, 0.6);
+    }
+
+    .portfolio-info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: 100%;
+      gap: 24px;
+    }
+
+    .portfolio-text-group h3 {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .portfolio-text-group p {
+      font-size: 15px;
+      color: #999999;
+    }
+
+    .portfolio-detail-link {
+      font-size: 13px;
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+      padding-bottom: 4px;
+      cursor: pointer;
+    }
+
+    .portfolio-detail-link::after {
+      content: "→";
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-detail-link:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .portfolio-detail-link::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .portfolio-redefinition-copy {
+      width: 100%;
+    }
+
+    .portfolio-redefinition-title {
+      font-size: clamp(39px, 3.55vw, 68px);
+      font-weight: 800;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 24px;
+      letter-spacing: 0;
+    }
+
+    .portfolio-redefinition-sub {
+      font-size: 17px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    .portfolio-intro-title {
+      font-size: clamp(40px, 3.95vw, 74px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .portfolio-intro-title-end {
+      font-size: clamp(32px, 3.95vw, 66px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .portfolio-intro-sub {
+      font-size: 17px;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    .portfolio-intro-cta {
+      margin-top: 34px;
+      pointer-events: auto;
+    }
+
+    .view-more-section {
+      width: clamp(360px, 35.4vw, 680px);
+      height: clamp(420px, 55.5svh, 600px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-color: #121212;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+    }
+
+    .view-more-title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .view-more-subtitle {
+      font-size: 15px;
+      color: #aaaaaa;
+      margin-bottom: 30px;
+    }
+
+    /* 4. 소개 섹션 */
+    .intro-section {
+      position: relative;
+      width: 100%;
+      height: 0;
+      display: none;
+      background-color: #121212;
+      z-index: 1;
+    }
+
+    .intro-fixed-viewport {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: max(var(--section-min-height), 100svh);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .intro-center-box {
+      position: absolute;
+      width: 900px;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px);
+      transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+    }
+
+    .intro-center-box.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .intro-main-title {
+      font-size: clamp(40px, 3.95vw, 74px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .intro-main-title-end {
+      font-size: clamp(32px, 2.65vw, 50px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .intro-title-nowrap {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .intro-sub-desc {
+      font-size: 17px;
+      color: #aaa;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .intro-btn {
+      background: #4f46e5;
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.3s;
+    }
+
+    .intro-btn:hover {
+      background: #4338ca;
+    }
+
+    /* 5. 생성된 로고 무한 루프 섹션 */
+    .logo-marquee-section {
+      width: 100%;
+      height: 65px;
+      background-color: #000;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 10;
+      position: relative;
+    }
+
+    .marquee-track {
+      display: flex;
+      align-items: center;
+      gap: clamp(40px, 5vw, 50px);
+      width: max-content;
+      animation: marquee 38s linear infinite;
+    }
+
+    .marquee-item {
+      width: clamp(126px, 11vw, 188px);
+      height: clamp(52px, 5.2vw, 76px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      opacity: 0.82;
+    }
+
+    .marquee-item img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
       }
 
-      /* 회전 애니메이션 키프레임 */
-      @keyframes rotate-glow {
-        0% {
-          --angle: 0deg;
-        }
-        100% {
-          --angle: 360deg;
-        }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* 6. 디자인 의뢰하기 섹션 */
+    .cta-section {
+      position: relative;
+      width: 100%;
+      min-height: clamp(360px, 45svh, 483px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      background: #101010;
+    }
+
+    .cta-bg-video {
+      position: absolute;
+      inset: -24px;
+      width: calc(100% + 48px);
+      height: calc(100% + 48px);
+      object-fit: cover;
+      filter: blur(14px) saturate(1.08) brightness(0.56);
+      transform: scale(1.04);
+    }
+
+    .cta-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%,
+          rgba(236, 72, 153, 0.18) 0%,
+          rgba(79, 70, 229, 0.16) 45%,
+          transparent 78%),
+        rgba(10, 10, 12, 0.38);
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-size: clamp(33px, 2.7vw, 52px);
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+
+    .cta-button {
+      width: 180px;
+      height: 58px;
+      border-radius: 5px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: #ffffff;
+      color: #121212;
+      border-color: #ffffff;
+    }
+
+    /* 7. 푸터 */
+    footer {
+      width: 100%;
+      min-height: 480px;
+      background-color: #0a0a0a;
+      display: flex;
+      justify-content: space-between;
+      padding: clamp(72px, 6vw, 100px) clamp(32px, 6.25vw, 120px);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 10;
+      position: relative;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .footer-info {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .footer-right {
+      display: flex;
+      gap: 100px;
+    }
+
+    .footer-menu-col h4 {
+      font-size: 15px;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+
+    .footer-menu-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-menu-col ul li a {
+      font-size: 14px;
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-menu-col ul li a:hover {
+      color: #fff;
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .footer-contact span {
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      :root {
+        --page-gutter: 24px;
+        --section-min-height: 700px;
+      }
+
+      nav {
+        height: 72px;
+      }
+
+      .nav-menu {
+        gap: 18px;
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links a,
+      .nav-auth a {
+        font-size: 13px;
+      }
+
+      .nav-auth button {
+        font-size: 13px;
+      }
+
+      .hero-section {
+        padding-top: 72px;
+      }
+
+      .hero-badge {
+        font-size: 16px;
+      }
+
+      .hero-subtitle {
+        width: min(520px, 100%);
+        line-height: 1.6;
+      }
+
+      .input-box-inner {
+        gap: 18px;
+      }
+
+      .input-sub-row,
+      .input-left-group,
+      .keyword-area,
+      .keyword-tags-wrapper {
+        flex-wrap: wrap;
+      }
+
+      .portfolio-track {
+        padding-left: 176px;
+        gap: 48px;
+      }
+
+      .portfolio-redefinition-backdrop {
+        width: min(620px, calc(100vw - 48px));
+      }
+
+      .portfolio-item {
+        width: 68vw;
+      }
+
+      .view-more-section {
+        width: auto;
+      }
+
+      footer {
+        min-height: auto;
+      }
+
+      .footer-right {
+        flex-wrap: wrap;
+        gap: 48px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --page-gutter: 18px;
+        --section-min-height: 640px;
+      }
+
+      nav {
+        height: 68px;
+        padding: 0 10px;
+        gap: 8px;
+      }
+
+      .nav-logo {
+        flex: 0 0 auto;
+        font-size: 16px;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .home-mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 68px;
+        left: 18px;
+        right: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        padding: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 18px;
+        background: rgba(14, 14, 15, 0.92);
+        -webkit-backdrop-filter: blur(18px);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
+        opacity: 0;
+        transform: translateY(-12px);
+        pointer-events: none;
+        transition:
+          opacity 0.22s ease,
+          transform 0.22s ease;
+        z-index: 1001;
+      }
+
+      .nav-menu.mobile-open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .nav-links {
+        order: 1;
+        /* 상단 배치 */
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .nav-auth {
+        order: 2;
+        /* 하단 배치 */
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        width: 100%;
+        padding-top: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        /* 구분선 추가 (선택 사항) */
+      }
+
+      .nav-links a,
+      .nav-auth a,
+      .nav-auth button {
+        height: auto;
+        min-height: 32px;
+        justify-content: center;
+        font-size: 15px;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      .nav-auth button {
+        display: inline-flex;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #b3b3b3;
+        box-shadow: none;
+      }
+
+      .nav-auth button:hover {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: #ffffff;
+        font-weight: 600;
+      }
+
+      .hero-section {
+        justify-content: center;
+        padding: 82px 18px 48px;
+        text-align: center;
+      }
+
+      .hero-content {
+        width: 100%;
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero-badge {
+        justify-content: center;
+        font-size: 13px;
+        margin-bottom: 14px;
+      }
+
+      .hero-title {
+        width: calc(100vw - 24px);
+        margin: 0 auto 16px;
+        font-size: 26px;
+        line-height: 1.18;
+        text-align: center;
+      }
+
+      .hero-title-line {
+        display: block;
+        white-space: nowrap;
+      }
+
+      .hero-subtitle {
+        width: min(320px, 100%);
+        margin: 0 auto 34px;
+        font-size: 13px;
+        line-height: 1.55;
+        text-align: center;
+      }
+
+      .input-box-wrapper {
+        width: min(340px, calc(100vw - 36px));
+        min-height: 108px;
+      }
+
+      .input-box-inner {
+        min-height: 108px;
+        padding: 16px 18px;
+        gap: 14px;
+        align-items: stretch;
       }
 
       .input-main-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .input-main-row input {
-        background: transparent;
-        border: none;
-        outline: none;
-        color: #ffffff;
-        font-size: 15px;
-        width: 80%;
-        font-family: "Pretendard", sans-serif;
-      }
-      .input-main-row input::placeholder {
-        color: #666666;
-      }
-
-      /* 완벽한 중앙 정렬이 적용된 원형 종이비행기 전송 버튼 */
-      .submit-btn {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #4f46e5, #ec4899);
-        border: none;
-        display: flex;
-        align-items: center;
         justify-content: center;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        overflow: hidden;
-        flex-shrink: 0;
-        padding: 0; /* 내부 여백 초기화로 완벽한 센터 정렬 */
-      }
-      .submit-btn::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
-        opacity: 0.5;
-        pointer-events: none;
-      }
-      .submit-btn svg {
-        position: relative;
-        z-index: 1;
-        display: block; /* 마진 오차 방지 */
-      }
-      .submit-btn:hover {
-        transform: scale(1.05);
       }
 
-      /* 하단 업종 및 키워드 영역 */
+      .input-main-row input {
+        width: calc(100% - 46px);
+        font-size: 13px;
+        text-align: center;
+      }
+
       .input-sub-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 13px;
-        position: relative;
-      }
-
-      .input-left-group {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .dropdown-wrapper {
-        position: relative;
-      }
-      .dropdown-btn {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #b3b3b3;
-        padding: 6px 14px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 13px;
-        font-family: "Pretendard", sans-serif;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        transition: all 0.3s ease;
-      }
-      .dropdown-btn:hover {
-        border-color: rgba(79, 70, 229, 0.6);
-        color: #ffffff;
-      }
-      .dropdown-menu {
-        position: absolute;
-        bottom: 45px;
-        left: 0;
-        width: 220px;
-        background: rgba(18, 18, 18, 0.9);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-        display: none;
-        flex-direction: column;
-        padding: 8px;
-        z-index: 100;
-        list-style: none;
-        text-align: left;
-      }
-      .dropdown-menu.show {
-        display: flex;
-      }
-      .dropdown-item {
-        padding: 10px 14px;
-        font-size: 13px;
-        color: #cccccc;
-        cursor: pointer;
-        border-radius: 8px;
-        transition:
-          background 0.2s,
-          color 0.2s;
-      }
-      .dropdown-item:hover {
-        background: rgba(79, 70, 229, 0.3);
-        color: #ffffff;
-      }
-
-      .custom-industry-input {
-        width: 150px;
-        display: none;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 10px;
-        color: #ffffff;
-        padding: 6px 14px;
-        font-size: 13px;
-        font-family: "Pretendard", sans-serif;
-        outline: none;
-        transition: all 0.3s ease;
-      }
-      .custom-industry-input::placeholder {
-        color: #777;
-      }
-      .custom-industry-input:focus {
-        border-color: rgba(79, 70, 229, 0.8);
-      }
-
-      /* 키워드 영역: 평소엔 버튼 형태, 누르면 인풋창으로 변환 */
-      .keyword-area {
-        display: flex;
-        align-items: center;
+        justify-content: center;
         gap: 10px;
       }
-      .keyword-toggle-btn {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #b3b3b3;
-        padding: 6px 14px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-family: "Pretendard", sans-serif;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      .keyword-toggle-btn:hover {
-        border-color: rgba(79, 70, 229, 0.6);
-        color: #ffffff;
-      }
 
-      .keyword-input-box {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #ffffff;
-        padding: 6px 14px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-family: "Pretendard", sans-serif;
-        outline: none;
-        width: 140px;
-        display: none; /* 기본 숨김 */
-        transition: all 0.3s ease;
-      }
-      .keyword-input-box::placeholder {
-        color: #777;
-      }
-      .keyword-input-box:focus {
-        border-color: rgba(79, 70, 229, 0.8);
-      }
-
-      .keyword-divider {
-        width: 1px;
-        height: 16px;
-        background-color: rgba(255, 255, 255, 0.25);
-        display: none;
-      }
+      .input-left-group,
+      .keyword-area,
       .keyword-tags-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .keyword-tag {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        padding: 5px 12px;
-        border-radius: 8px;
-        font-size: 14px;
-        color: #ffffff;
-      }
-      .keyword-tag .remove-tag {
-        cursor: pointer;
-        color: #888;
-        font-size: 14px;
-        font-weight: 600;
-        transition: color 0.2s;
-      }
-      .keyword-tag .remove-tag:hover {
-        color: #ff4d4d;
-      }
-
-      /* 3. 포트폴리오 섹션 */
-      .portfolio-section {
-        position: relative;
-        width: 100%;
-        height: max(var(--section-min-height), 100svh);
-        background-color: #121212;
-        overflow: hidden;
-        z-index: 5;
-      }
-      .portfolio-fixed-title {
-        position: absolute;
-        top: clamp(96px, 11vh, 128px);
-        left: var(--page-gutter);
-        font-size: 44px;
-        font-weight: 700;
-        color: #ffffff;
-        z-index: 12;
-      }
-      .portfolio-redefinition-backdrop {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        right: auto;
-        width: min(900px, calc(100vw - 48px));
-        transform: translate(-50%, -50%);
-        text-align: center;
-        opacity: 0;
-        clip-path: inset(0 0 0 100%);
-        pointer-events: none;
-        z-index: 1;
-      }
-      .portfolio-intro-handoff {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: max(var(--section-min-height), 100svh);
-        text-align: center;
-        pointer-events: none;
-        z-index: 2;
-        overflow: hidden;
-      }
-      .portfolio-intro-step {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        z-index: 1;
-      }
-      .portfolio-intro-copy {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        text-align: center;
-        padding: 0 24px;
-        z-index: 2;
-      }
-      .portfolio-intro-visual {
-        position: absolute;
-        width: clamp(540px, 54vw, 1050px);
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.08);
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
-        z-index: 2;
-      }
-      .portfolio-intro-visual img,
-      .portfolio-intro-visual video {
-        width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: cover;
-      }
-      .portfolio-intro-step:nth-child(1) .portfolio-intro-visual {
-        top: 14%;
-        left: 6%;
-      }
-      .portfolio-intro-step:nth-child(2) .portfolio-intro-visual {
-        top: 31%;
-        right: 5%;
-      }
-      .portfolio-intro-step:nth-child(3) .portfolio-intro-visual {
-        top: 57%;
-        left: 6%;
-      }
-      .portfolio-intro-step:nth-child(4) .portfolio-intro-visual {
-        top: 22%;
-        right: 6%;
-      }
-      .portfolio-intro-step:nth-child(5) .portfolio-intro-visual {
-        top: 52%;
-        left: 6%;
-      }
-      .portfolio-intro-step:nth-child(6) .portfolio-intro-visual {
-        top: 46%;
-        right: 6%;
-      }
-      .portfolio-intro-handoff::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        background:
-          linear-gradient(
-            90deg,
-            rgba(18, 18, 18, 0.54),
-            rgba(18, 18, 18, 0) 35%,
-            rgba(18, 18, 18, 0) 65%,
-            rgba(18, 18, 18, 0.54)
-          ),
-          radial-gradient(
-            circle at 50% 50%,
-            rgba(18, 18, 18, 0) 0%,
-            rgba(18, 18, 18, 0.18) 58%,
-            rgba(18, 18, 18, 0.42) 100%
-          );
-        pointer-events: none;
-      }
-      .portfolio-track {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: max(var(--section-min-height), 100svh);
-        display: flex;
-        align-items: center;
-        gap: clamp(40px, 5.2vw, 100px);
-        padding-left: clamp(260px, 28vw, 520px);
-        padding-right: 42vw;
-        will-change: transform;
-        z-index: 5;
-      }
-      .portfolio-item {
-        width: clamp(360px, 38.5vw, 740px);
-        flex: 0 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-      .portfolio-logo-box {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 740 / 475;
-        background: #1a1a1a;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        font-weight: 600;
-        color: #ddd;
-        overflow: hidden;
-        transition: border-color 0.3s ease;
-      }
-      .portfolio-logo-box img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .portfolio-logo-box:hover {
-        border-color: rgba(79, 70, 229, 0.6);
-      }
-      .portfolio-info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        width: 100%;
-        gap: 24px;
-      }
-      .portfolio-text-group h3 {
-        font-size: 30px;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 8px;
-      }
-      .portfolio-text-group p {
-        font-size: 15px;
-        color: #999999;
-      }
-      .portfolio-detail-link {
-        font-size: 13px;
-        color: #ffffff;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        position: relative;
-        padding-bottom: 4px;
-        cursor: pointer;
-      }
-      .portfolio-detail-link::after {
-        content: "→";
-        opacity: 0;
-        transform: translateX(-10px);
-        transition: all 0.3s ease;
-      }
-      .portfolio-detail-link:hover::after {
-        opacity: 1;
-        transform: translateX(0);
-      }
-      .portfolio-detail-link::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: rgba(255, 255, 255, 0.4);
-      }
-      .portfolio-redefinition-copy {
-        width: 100%;
-      }
-      .portfolio-redefinition-title {
-        font-size: clamp(39px, 3.55vw, 68px);
-        font-weight: 800;
-        line-height: 1.15;
-        color: #ffffff;
-        margin-bottom: 24px;
-        letter-spacing: 0;
-      }
-      .portfolio-redefinition-sub {
-        font-size: 17px;
-        color: #aaa;
-        line-height: 1.5;
-      }
-      .portfolio-intro-title {
-        font-size: clamp(40px, 3.95vw, 74px);
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 24px;
-        letter-spacing: -1px;
-      }
-      .portfolio-intro-title-end {
-        font-size: clamp(32px, 3.95vw, 66px);
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 24px;
-        letter-spacing: -1px;
       }
 
-      .portfolio-intro-sub {
-        font-size: 17px;
-        color: #aaa;
-        line-height: 1.5;
-      }
-      .portfolio-intro-cta {
-        margin-top: 34px;
-        pointer-events: auto;
-      }
-      .view-more-section {
-        width: clamp(360px, 35.4vw, 680px);
-        height: clamp(420px, 55.5svh, 600px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background-color: #121212;
-        border: none;
-        border-radius: 25px;
-        cursor: pointer;
-      }
-      .view-more-title {
-        font-size: 30px;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 12px;
-      }
-      .view-more-subtitle {
-        font-size: 15px;
-        color: #aaaaaa;
-        margin-bottom: 30px;
-      }
-
-      /* 4. 소개 섹션 */
-      .intro-section {
-        position: relative;
-        width: 100%;
-        height: 0;
-        display: none;
-        background-color: #121212;
-        z-index: 1;
-      }
-      .intro-fixed-viewport {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        height: max(var(--section-min-height), 100svh);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-      }
-      .intro-center-box {
-        position: absolute;
-        width: 900px;
-        text-align: center;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(30px);
-        transition:
-          opacity 0.5s ease,
-          transform 0.5s ease;
-      }
-      .intro-center-box.active {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-      }
-      .intro-main-title {
-        font-size: clamp(40px, 3.95vw, 74px);
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 24px;
-        letter-spacing: -1px;
-      }
-
-      .intro-main-title-end {
-        font-size: clamp(32px, 2.65vw, 50px);
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 24px;
-        letter-spacing: -1px;
-      }
-
-      .intro-title-nowrap {
-        display: inline-block;
-        white-space: nowrap;
-      }
-      .intro-sub-desc {
-        font-size: 17px;
-        color: #aaa;
-        margin-bottom: 30px;
-        line-height: 1.5;
-      }
-      .intro-btn {
-        background: #4f46e5;
-        color: #fff;
-        border: none;
-        padding: 14px 28px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 15px;
-        transition: background 0.3s;
-      }
-      .intro-btn:hover {
-        background: #4338ca;
-      }
-
-      /* 5. 생성된 로고 무한 루프 섹션 */
-      .logo-marquee-section {
-        width: 100%;
-        height: 65px;
-        background-color: #000;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        z-index: 10;
-        position: relative;
-      }
-      .marquee-track {
-        display: flex;
-        align-items: center;
-        gap: clamp(40px, 5vw, 50px);
-        width: max-content;
-        animation: marquee 38s linear infinite;
-      }
-      .marquee-item {
-        width: clamp(126px, 11vw, 188px);
-        height: clamp(52px, 5.2vw, 76px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 0 0 auto;
-        opacity: 0.82;
-      }
-      .marquee-item img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-      @keyframes marquee {
-        0% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(-50%);
-        }
-      }
-
-      /* 6. 디자인 의뢰하기 섹션 */
-      .cta-section {
-        position: relative;
-        width: 100%;
-        min-height: clamp(360px, 45svh, 483px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        overflow: hidden;
-        z-index: 10;
-      }
-      .cta-bg {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        overflow: hidden;
-        background: #101010;
-      }
-      .cta-bg-video {
-        position: absolute;
-        inset: -24px;
-        width: calc(100% + 48px);
-        height: calc(100% + 48px);
-        object-fit: cover;
-        filter: blur(14px) saturate(1.08) brightness(0.56);
-        transform: scale(1.04);
-      }
-      .cta-bg::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(
-            circle at 50% 50%,
-            rgba(236, 72, 153, 0.18) 0%,
-            rgba(79, 70, 229, 0.16) 45%,
-            transparent 78%
-          ),
-          rgba(10, 10, 12, 0.38);
-      }
-      .cta-content {
-        position: relative;
-        z-index: 2;
-      }
-      .cta-title {
-        font-size: clamp(33px, 2.7vw, 52px);
-        font-weight: 700;
-        margin-bottom: 30px;
-      }
-      .cta-button {
-        width: 180px;
-        height: 58px;
-        border-radius: 5px;
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        color: #ffffff;
-        font-size: 18px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      .cta-button:hover {
-        background: #ffffff;
-        color: #121212;
-        border-color: #ffffff;
-      }
-
-      /* 7. 푸터 */
-      footer {
-        width: 100%;
-        min-height: 480px;
-        background-color: #0a0a0a;
-        display: flex;
-        justify-content: space-between;
-        padding: clamp(72px, 6vw, 100px) clamp(32px, 6.25vw, 120px);
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        z-index: 10;
-        position: relative;
-      }
-      .footer-left {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .footer-logo {
-        font-size: 26px;
-        font-weight: 700;
-      }
-      .footer-info {
+      .dropdown-btn,
+      .keyword-toggle-btn,
+      .custom-industry-input,
+      .keyword-input-box {
         font-size: 12px;
-        color: #666;
-        line-height: 1.6;
       }
-      .footer-right {
-        display: flex;
-        gap: 100px;
+
+      .submit-btn {
+        width: 34px;
+        height: 34px;
       }
-      .footer-menu-col h4 {
-        font-size: 15px;
-        margin-bottom: 24px;
-        color: #fff;
+
+      .submit-btn svg {
+        width: 15px;
+        height: 15px;
       }
-      .footer-menu-col ul {
-        list-style: none;
-        display: flex;
+
+      .portfolio-fixed-title {
+        top: 88px;
+      }
+
+      .portfolio-track {
+        padding-left: 24px;
+        padding-top: 112px;
+        gap: 32px;
+      }
+
+      .portfolio-redefinition-backdrop {
+        width: calc(100vw - 36px);
+      }
+
+      .portfolio-item {
+        width: 78vw;
+      }
+
+      .portfolio-info-row {
+        align-items: flex-start;
         flex-direction: column;
         gap: 14px;
       }
-      .footer-menu-col ul li a {
-        font-size: 14px;
-        color: #888;
-        text-decoration: none;
-        transition: color 0.2s;
+
+      .portfolio-text-group h3 {
+        font-size: 24px;
       }
-      .footer-menu-col ul li a:hover {
-        color: #fff;
+
+      .view-more-section {
+        height: 420px;
       }
-      .footer-contact {
-        display: flex;
+
+      .portfolio-intro-visual {
+        width: clamp(360px, 82vw, 620px);
+        border-radius: 16px;
+      }
+
+      .portfolio-intro-step:nth-child(1) .portfolio-intro-visual {
+        top: 14%;
+        left: 3%;
+      }
+
+      .portfolio-intro-step:nth-child(2) .portfolio-intro-visual {
+        top: 30%;
+        right: 3%;
+      }
+
+      .portfolio-intro-step:nth-child(3) .portfolio-intro-visual {
+        top: 58%;
+        left: 3%;
+      }
+
+      .portfolio-intro-step:nth-child(4) .portfolio-intro-visual {
+        top: 22%;
+        right: 3%;
+      }
+
+      .portfolio-intro-step:nth-child(5) .portfolio-intro-visual {
+        top: 54%;
+        left: 3%;
+      }
+
+      .portfolio-intro-step:nth-child(6) .portfolio-intro-visual {
+        top: 48%;
+        right: 3%;
+      }
+
+      .intro-sub-desc {
+        font-size: 16px;
+      }
+
+      .intro-main-title,
+      .intro-main-title-end,
+      .portfolio-intro-title,
+      .portfolio-intro-title-end {
+        width: min(520px, calc(100% - 36px));
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 26px;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .intro-sub-desc,
+      .portfolio-intro-sub {
+        width: min(520px, calc(100% - 36px));
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 13px;
+        line-height: 1.55;
+        text-align: center;
+      }
+
+      .intro-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+
+      .cta-title {
+        width: calc(100vw - 36px);
+        max-width: 354px;
+        margin: 0 auto 22px;
+        font-size: 26px;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .cta-title-line {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+      }
+
+      .cta-button {
+        width: 150px;
+        height: 46px;
+        font-size: 15px;
+      }
+
+      footer {
         flex-direction: column;
-        gap: 12px;
-        font-size: 14px;
-        color: #888;
-      }
-      .footer-contact span {
-        color: #fff;
+        padding: 64px 24px;
+        gap: 58px;
       }
 
-      @media (max-width: 900px) {
-        :root {
-          --page-gutter: 24px;
-          --section-min-height: 700px;
-        }
-        nav {
-          height: 72px;
-        }
-        .nav-menu {
-          gap: 18px;
-        }
-        .nav-links {
-          gap: 16px;
-        }
-        .nav-links a,
-        .nav-auth a {
-          font-size: 13px;
-        }
-        .nav-auth button {
-          font-size: 13px;
-        }
-        .hero-section {
-          padding-top: 72px;
-        }
-        .hero-badge {
-          font-size: 16px;
-        }
-        .hero-subtitle {
-          width: min(520px, 100%);
-          line-height: 1.6;
-        }
-        .input-box-inner {
-          gap: 18px;
-        }
-        .input-sub-row,
-        .input-left-group,
-        .keyword-area,
-        .keyword-tags-wrapper {
-          flex-wrap: wrap;
-        }
-        .portfolio-track {
-          padding-left: 176px;
-          gap: 48px;
-        }
-        .portfolio-redefinition-backdrop {
-          width: min(620px, calc(100vw - 48px));
-        }
-        .portfolio-item {
-          width: 68vw;
-        }
-        .view-more-section {
-          width: auto;
-        }
-        footer {
-          min-height: auto;
-        }
-        .footer-right {
-          flex-wrap: wrap;
-          gap: 48px;
-        }
+      .footer-left {
+        width: 100%;
+        gap: 16px;
       }
 
-      @media (max-width: 640px) {
-        :root {
-          --page-gutter: 18px;
-          --section-min-height: 640px;
-        }
-        nav {
-          height: 68px;
-          padding: 0 10px;
-          gap: 8px;
-        }
-        .nav-logo {
-          flex: 0 0 auto;
-          font-size: 16px;
-          line-height: 1;
-          white-space: nowrap;
-        }
-        .home-mobile-menu-btn {
-          display: inline-flex;
-        }
-        .nav-menu {
-          position: fixed;
-          top: 68px;
-          left: 18px;
-          right: 18px;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-          gap: 20px;
-          padding: 22px;
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          border-radius: 18px;
-          background: rgba(14, 14, 15, 0.92);
-          -webkit-backdrop-filter: blur(18px);
-          backdrop-filter: blur(18px);
-          box-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
-          opacity: 0;
-          transform: translateY(-12px);
-          pointer-events: none;
-          transition:
-            opacity 0.22s ease,
-            transform 0.22s ease;
-          z-index: 1001;
-        }
-        .nav-menu.mobile-open {
-          opacity: 1;
-          transform: translateY(0);
-          pointer-events: auto;
-        }
-        .nav-links {
-          order: 2;
-          flex-direction: column;
-          align-items: center;
-          gap: 18px;
-        }
-        .nav-auth {
-          order: 1;
-          flex-direction: column;
-          align-items: center;
-          gap: 18px;
-          padding-bottom: 2px;
-        }
-        .nav-links a,
-        .nav-auth a,
-        .nav-auth button {
-          height: auto;
-          min-height: 32px;
-          justify-content: center;
-          font-size: 15px;
-          line-height: 1;
-          white-space: nowrap;
-        }
-        .nav-auth button {
-          display: inline-flex;
-          padding: 0;
-          border: 0;
-          border-radius: 0;
-          background: transparent;
-          color: #b3b3b3;
-          box-shadow: none;
-        }
-        .nav-auth button:hover {
-          background: transparent;
-          border-color: transparent;
-          box-shadow: none;
-          color: #ffffff;
-          font-weight: 600;
-        }
-        .hero-section {
-          justify-content: center;
-          padding: 82px 18px 48px;
-          text-align: center;
-        }
-        .hero-content {
-          width: 100%;
-          align-items: center;
-          text-align: center;
-        }
-        .hero-badge {
-          justify-content: center;
-          font-size: 13px;
-          margin-bottom: 14px;
-        }
-        .hero-title {
-          width: calc(100vw - 24px);
-          margin: 0 auto 16px;
-          font-size: 26px;
-          line-height: 1.18;
-          text-align: center;
-        }
-        .hero-title-line {
-          display: block;
-          white-space: nowrap;
-        }
-        .hero-subtitle {
-          width: min(320px, 100%);
-          margin: 0 auto 34px;
-          font-size: 13px;
-          line-height: 1.55;
-          text-align: center;
-        }
-        .input-box-wrapper {
-          width: min(340px, calc(100vw - 36px));
-          min-height: 108px;
-        }
-        .input-box-inner {
-          min-height: 108px;
-          padding: 16px 18px;
-          gap: 14px;
-          align-items: stretch;
-        }
-        .input-main-row {
-          justify-content: center;
-        }
-        .input-main-row input {
-          width: calc(100% - 46px);
-          font-size: 13px;
-          text-align: center;
-        }
-        .input-sub-row {
-          justify-content: center;
-          gap: 10px;
-        }
-        .input-left-group,
-        .keyword-area,
-        .keyword-tags-wrapper {
-          justify-content: center;
-        }
-        .dropdown-btn,
-        .keyword-toggle-btn,
-        .custom-industry-input,
-        .keyword-input-box {
-          font-size: 12px;
-        }
-        .submit-btn {
-          width: 34px;
-          height: 34px;
-        }
-        .submit-btn svg {
-          width: 15px;
-          height: 15px;
-        }
-        .portfolio-fixed-title {
-          top: 88px;
-        }
-        .portfolio-track {
-          padding-left: 24px;
-          padding-top: 112px;
-          gap: 32px;
-        }
-        .portfolio-redefinition-backdrop {
-          width: calc(100vw - 36px);
-        }
-        .portfolio-item {
-          width: 78vw;
-        }
-        .portfolio-info-row {
-          align-items: flex-start;
-          flex-direction: column;
-          gap: 14px;
-        }
-        .portfolio-text-group h3 {
-          font-size: 24px;
-        }
-        .view-more-section {
-          height: 420px;
-        }
-        .portfolio-intro-visual {
-          width: clamp(360px, 82vw, 620px);
-          border-radius: 16px;
-        }
-        .portfolio-intro-step:nth-child(1) .portfolio-intro-visual {
-          top: 14%;
-          left: 3%;
-        }
-        .portfolio-intro-step:nth-child(2) .portfolio-intro-visual {
-          top: 30%;
-          right: 3%;
-        }
-        .portfolio-intro-step:nth-child(3) .portfolio-intro-visual {
-          top: 58%;
-          left: 3%;
-        }
-        .portfolio-intro-step:nth-child(4) .portfolio-intro-visual {
-          top: 22%;
-          right: 3%;
-        }
-        .portfolio-intro-step:nth-child(5) .portfolio-intro-visual {
-          top: 54%;
-          left: 3%;
-        }
-        .portfolio-intro-step:nth-child(6) .portfolio-intro-visual {
-          top: 48%;
-          right: 3%;
-        }
-        .intro-sub-desc {
-          font-size: 16px;
-        }
-        .intro-main-title,
-        .intro-main-title-end,
-        .portfolio-intro-title,
-        .portfolio-intro-title-end {
-          width: min(520px, calc(100% - 36px));
-          margin-left: auto;
-          margin-right: auto;
-          font-size: 26px;
-          line-height: 1.35;
-          text-align: center;
-        }
-        .intro-sub-desc,
-        .portfolio-intro-sub {
-          width: min(520px, calc(100% - 36px));
-          margin-left: auto;
-          margin-right: auto;
-          font-size: 13px;
-          line-height: 1.55;
-          text-align: center;
-        }
-        .intro-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          margin-left: auto;
-          margin-right: auto;
-          padding: 12px 20px;
-          font-size: 15px;
-        }
-        .cta-title {
-          width: calc(100vw - 36px);
-          max-width: 354px;
-          margin: 0 auto 22px;
-          font-size: 26px;
-          line-height: 1.35;
-          text-align: center;
-        }
-        .cta-title-line {
-          display: block;
-          width: 100%;
-          white-space: nowrap;
-        }
-        .cta-button {
-          width: 150px;
-          height: 46px;
-          font-size: 15px;
-        }
-        footer {
-          flex-direction: column;
-          padding: 64px 24px;
-          gap: 58px;
-        }
-        .footer-left {
-          width: 100%;
-          gap: 16px;
-        }
-        .footer-right {
-          flex-direction: column;
-          width: 100%;
-          gap: 36px;
-        }
-        .footer-menu-col h4 {
-          margin-bottom: 12px;
-        }
-        .footer-menu-col ul {
-          gap: 8px;
-        }
-        .footer-contact {
-          padding-top: 4px;
-          gap: 8px;
-        }
+      .footer-right {
+        flex-direction: column;
+        width: 100%;
+        gap: 36px;
       }
-      
-    </style>
-  </head>
-  <body>
-    <!-- 1. 네비게이션 섹션 -->
-    <nav>
-      <a href="#" class="nav-logo">Branding Fit</a>
-      <button
-        class="home-mobile-menu-btn"
-        id="home-mobile-menu-toggle"
-        type="button"
-        aria-label="메뉴 열기"
-        aria-expanded="false"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="nav-menu">
-        <ul class="nav-links">
-          <li><a href="#portfolio">포트폴리오</a></li>
-          <li><a href="#intro">소개</a></li>
-          <li><a href="#cta">디자인의뢰</a></li>
-        </ul>
-        <div class="nav-auth">
-          <a href="#">로그인</a>
-          <button>디자인 시작</button>
-        </div>
+
+      .footer-menu-col h4 {
+        margin-bottom: 12px;
+      }
+
+      .footer-menu-col ul {
+        gap: 8px;
+      }
+
+      .footer-contact {
+        padding-top: 4px;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 1. 네비게이션 섹션 -->
+  <nav>
+    <a href="#" class="nav-logo">Branding Fit</a>
+    <button class="home-mobile-menu-btn" id="home-mobile-menu-toggle" type="button" aria-label="메뉴 열기"
+      aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-menu">
+      <ul class="nav-links">
+        <li><a href="#portfolio">포트폴리오</a></li>
+        <li><a href="#intro">소개</a></li>
+        <li><a href="#cta">디자인의뢰</a></li>
+      </ul>
+      <div class="nav-auth">
+        <a href="#">로그인</a>
+        <button>디자인 시작</button>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <!-- 2. 히어로 섹션 -->
-    <section class="hero-section">
-      <div class="hero-bg" aria-hidden="true">
-        <video
-          class="hero-bg-video"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-        >
-          <source src="/assets/videos/hero-bg.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="hero-content">
-        <div class="hero-badge">✨ AI 기반 차세대 브랜딩 엔진</div>
-        <h1 class="hero-title">
-          <span class="hero-title-line">상상이 현실이 되는 곳,</span>
-          <span class="hero-title-line">당신의 브랜드를 디자인해 보세요.</span>
-        </h1>
-        <p class="hero-subtitle">
-          AI를 통해 로고, 슬로건, 브랜드 컬러부터 가이드북까지 한번에
-          완성합니다.
-        </p>
+  <!-- 2. 히어로 섹션 -->
+  <section class="hero-section">
+    <div class="hero-bg" aria-hidden="true">
+      <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata">
+        <source src="/assets/videos/hero-bg.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">✨ AI 기반 차세대 브랜딩 엔진</div>
+      <h1 class="hero-title">
+        <span class="hero-title-line">상상이 현실이 되는 곳,</span>
+        <span class="hero-title-line">당신의 브랜드를 디자인해 보세요.</span>
+      </h1>
+      <p class="hero-subtitle">
+        AI를 통해 로고, 슬로건, 브랜드 컬러부터 가이드북까지 한번에
+        완성합니다.
+      </p>
 
-        <!-- 입력 창 컴포넌트 -->
-        <div class="input-box-wrapper">
-          <div class="input-box-inner">
-            <div class="input-main-row">
-              <input
-                type="text"
-                id="brandInput"
-                placeholder="브랜드명을 입력하세요."
-              />
-            </div>
-            <div class="input-sub-row">
-              <div class="input-left-group">
-                <!-- 업종 선택 드롭다운 -->
-                <div class="dropdown-wrapper">
-                  <button class="dropdown-btn" id="industryDropdownBtn">
-                    <span id="selectedIndustryText">업종</span> ∨
-                  </button>
-                  <ul class="dropdown-menu" id="industryMenu">
-                    <li class="dropdown-item">카페•식당</li>
-                    <li class="dropdown-item">패션•뷰티</li>
-                    <li class="dropdown-item">브랜드•상품</li>
-                    <li class="dropdown-item">방송•엔터•게임</li>
-                    <li class="dropdown-item">반려동물•캐릭터</li>
-                    <li class="dropdown-item">플랫폼•어플</li>
-                    <li class="dropdown-item">서비스</li>
-                    <li
-                      class="dropdown-item"
-                      data-custom-industry-trigger="true"
-                    >
-                      기타
-                    </li>
-                  </ul>
-                </div>
-                <input
-                  type="text"
-                  id="customIndustryInput"
-                  class="custom-industry-input"
-                  placeholder="업종 직접 입력"
-                  aria-label="기타 업종 직접 입력"
-                />
-
-                <!-- 키워드 직접 입력 영역 (버튼 -> 인풋 전환형) -->
-                <div class="keyword-area">
-                  <button
-                    type="button"
-                    id="keywordToggleBtn"
-                    class="keyword-toggle-btn"
-                  >
-                    + 키워드 추가
-                  </button>
-                  <input
-                    type="text"
-                    id="keywordInputBox"
-                    class="keyword-input-box"
-                    placeholder="키워드 입력 후 Enter"
-                  />
-                  <div class="keyword-divider" id="keywordDivider"></div>
-                  <div
-                    class="keyword-tags-wrapper"
-                    id="keywordTagsWrapper"
-                  ></div>
-                </div>
+      <!-- 입력 창 컴포넌트 -->
+      <div class="input-box-wrapper">
+        <div class="input-box-inner">
+          <div class="input-main-row">
+            <input type="text" id="brandInput" placeholder="브랜드명을 입력하세요." />
+          </div>
+          <div class="input-sub-row">
+            <div class="input-left-group">
+              <!-- 업종 선택 드롭다운 -->
+              <div class="dropdown-wrapper">
+                <button class="dropdown-btn" id="industryDropdownBtn">
+                  <span id="selectedIndustryText">업종</span> ∨
+                </button>
+                <ul class="dropdown-menu" id="industryMenu">
+                  <li class="dropdown-item">카페•식당</li>
+                  <li class="dropdown-item">패션•뷰티</li>
+                  <li class="dropdown-item">브랜드•상품</li>
+                  <li class="dropdown-item">방송•엔터•게임</li>
+                  <li class="dropdown-item">반려동물•캐릭터</li>
+                  <li class="dropdown-item">플랫폼•어플</li>
+                  <li class="dropdown-item">서비스</li>
+                  <li class="dropdown-item" data-custom-industry-trigger="true">
+                    기타
+                  </li>
+                </ul>
               </div>
+              <input type="text" id="customIndustryInput" class="custom-industry-input" placeholder="업종 직접 입력"
+                aria-label="기타 업종 직접 입력" />
 
-              <!-- 완벽한 중앙 정렬된 원형 종이비행기 전송 버튼 -->
-              <button class="submit-btn" id="submitBrand" title="전송하기">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#ffffff"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-              </button>
+              <!-- 키워드 직접 입력 영역 (버튼 -> 인풋 전환형) -->
+              <div class="keyword-area">
+                <button type="button" id="keywordToggleBtn" class="keyword-toggle-btn">
+                  + 키워드 추가
+                </button>
+                <input type="text" id="keywordInputBox" class="keyword-input-box" placeholder="키워드 입력 후 Enter" />
+                <div class="keyword-divider" id="keywordDivider"></div>
+                <div class="keyword-tags-wrapper" id="keywordTagsWrapper"></div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- 3. 포트폴리오 섹션 -->
-    <section class="portfolio-section" id="portfolio">
-      <div class="portfolio-fixed-title">Portfolio</div>
-      <div
-        class="portfolio-redefinition-backdrop"
-        id="portfolioBackdrop"
-        aria-hidden="true"
-      >
-        <div class="portfolio-redefinition-copy">
-          <h2 class="portfolio-redefinition-title">
-            TEXT-BASED<br />BRAND<br />REDEFINITION
-          </h2>
-          <p class="portfolio-redefinition-sub">Branding Fit</p>
-        </div>
-      </div>
-      <div class="portfolio-intro-handoff" id="portfolioIntroHandoff">
-        <div class="portfolio-intro-step">
-          <figure class="portfolio-intro-visual" aria-hidden="true">
-            <img src="/assets/images/introduction/intro-01.png" alt="" />
-          </figure>
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title">브랜드의<br />시작을 함께</h2>
-            <p class="portfolio-intro-sub">
-              업종과 무드에 딱 맞는 AI 기반 비즈니스<br />아이덴티티 구축
-              시스템.
-            </p>
-          </div>
-        </div>
-        <div class="portfolio-intro-step">
-          <figure class="portfolio-intro-visual" aria-hidden="true">
-            <img src="/assets/images/introduction/intro-02.png" alt="" />
-          </figure>
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title">디자인의<br />경계를 허물다</h2>
-            <p class="portfolio-intro-sub">
-              전문 디자이너의 움직임을 모티브로<br />정교한 타이포그래피 완성.
-            </p>
-          </div>
-        </div>
-        <div class="portfolio-intro-step">
-          <figure class="portfolio-intro-visual" aria-hidden="true">
-            <img src="/assets/images/introduction/intro-03.png" alt="" />
-          </figure>
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title">원클릭<br />에셋 연동</h2>
-            <p class="portfolio-intro-sub">
-              로고 생성과 동시에 내 브랜드에 필요한<br />모든 브랜딩 요소가
-              실시간으로 매칭.
-            </p>
-          </div>
-        </div>
-        <div class="portfolio-intro-step">
-          <figure class="portfolio-intro-visual" aria-hidden="true">
-            <img src="/assets/images/introduction/intro-04.png" alt="" />
-          </figure>
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title">Automated<br />Design System</h2>
-            <p class="portfolio-intro-sub">
-              브랜드의 배색 가이드와 타이포그래피 규칙을<br />자로 잰 듯 완벽한
-              시스템으로 자동 구축합니다.
-            </p>
-          </div>
-        </div>
-        <div class="portfolio-intro-step">
-          <figure class="portfolio-intro-visual" aria-hidden="true">
-            <video
-              src="/assets/videos/introduction/intro-05.mp4"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            ></video>
-          </figure>
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title">
-              Vector-Based<br />Logo Generator
-            </h2>
-            <p class="portfolio-intro-sub">
-              업종 맞춤형 로고 상품을 실시간 생성하고,<br />인쇄에 즉시 쓰는
-              무손실 벡터(SVG)로 변환합니다.
-            </p>
-          </div>
-        </div>
-        <div class="portfolio-intro-step">
-          <figure class="portfolio-intro-visual" aria-hidden="true">
-            <img src="/assets/images/introduction/intro-06.png" alt="" />
-          </figure>
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title">
-              Unified Brand<br />Kit Builder
-            </h2>
-            <p class="portfolio-intro-sub">
-              완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고<br />최종 PDF
-              브랜드 가이드북으로 통합 소장합니다.
-            </p>
-          </div>
-        </div>
-        <div class="portfolio-intro-step">
-          <div class="portfolio-intro-copy">
-            <h2 class="portfolio-intro-title-end">
-              상상이 현실이 되는 곳,<br /><span class="intro-title-nowrap"
-                >당신의 브랜드를 디자인해 보세요.</span
-              >
-            </h2>
-            <p class="portfolio-intro-sub">
-              완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고 최종 PDF
-              브랜드 가이드북으로 통합 소장합니다.
-            </p>
-            <button type="button" class="intro-btn portfolio-intro-cta">
-              디자인 시작하기
+            <!-- 완벽한 중앙 정렬된 원형 종이비행기 전송 버튼 -->
+            <button class="submit-btn" id="submitBrand" title="전송하기">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
             </button>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="portfolio-track" id="portfolioTrack">
-        <!-- 1번 포트폴리오 -->
-        <div class="portfolio-item">
-          <div class="portfolio-logo-box">
-            <img
-              src="/assets/images/portfolio/urbanvibe/home-preview.jpg"
-              alt="URBANVIBE 로고"
-            />
-          </div>
-          <div class="portfolio-info-row">
-            <div class="portfolio-text-group">
-              <h3>UrbanVibe</h3>
-              <p>도시의 리듬을 입는 스트릿의 자유.</p>
-            </div>
-            <a
-              href="#/portfolio/urbanvibe"
-              class="portfolio-detail-link portfolio-preview-link"
-              data-portfolio-id="urbanvibe"
-              >자세히 보러가기</a
-            >
-          </div>
-        </div>
-        <!-- 2번 포트폴리오 -->
-        <div class="portfolio-item">
-          <div class="portfolio-logo-box">
-            <img
-              src="/assets/images/portfolio/godash/home-preview.jpg"
-              alt="GoDash 로고"
-            />
-          </div>
-          <div class="portfolio-info-row">
-            <div class="portfolio-text-group">
-              <h3>GoDash</h3>
-              <p>속도감과 역동성을 담은 모빌리티 브랜드.</p>
-            </div>
-            <a
-              href="#/portfolio/godash"
-              class="portfolio-detail-link portfolio-preview-link"
-              data-portfolio-id="godash"
-              >자세히 보러가기</a
-            >
-          </div>
-        </div>
-        <!-- 3번 포트폴리오 -->
-        <div class="portfolio-item">
-          <div class="portfolio-logo-box">
-            <img
-              src="/assets/images/portfolio/skillupbase/home-preview.jpg"
-              alt="SkillUpBase 로고"
-            />
-          </div>
-          <div class="portfolio-info-row">
-            <div class="portfolio-text-group">
-              <h3>SkillUpBase</h3>
-              <p>크리에이터의 꿈이 실력이 되는 곳.</p>
-            </div>
-            <a
-              href="#/portfolio/skillupbase"
-              class="portfolio-detail-link portfolio-preview-link"
-              data-portfolio-id="skillupbase"
-              >자세히 보러가기</a
-            >
-          </div>
-        </div>
-        <!-- 4번째: View more portfolio 영역 -->
-        <div class="portfolio-item portfolio-closing-panel">
-          <div class="view-more-section">
-            <h3 class="view-more-title">View more portfolio</h3>
-            <p class="view-more-subtitle">더 많은 포트폴리오를 확인하세요</p>
-            <a
-              href="#/portfolio"
-              class="portfolio-detail-link portfolio-more-link"
-              >포트폴리오 더보기</a
-            >
-          </div>
+  <!-- 3. 포트폴리오 섹션 -->
+  <section class="portfolio-section" id="portfolio">
+    <div class="portfolio-fixed-title">Portfolio</div>
+    <div class="portfolio-redefinition-backdrop" id="portfolioBackdrop" aria-hidden="true">
+      <div class="portfolio-redefinition-copy">
+        <h2 class="portfolio-redefinition-title">
+          TEXT-BASED<br />BRAND<br />REDEFINITION
+        </h2>
+        <p class="portfolio-redefinition-sub">Branding Fit</p>
+      </div>
+    </div>
+    <div class="portfolio-intro-handoff" id="portfolioIntroHandoff">
+      <div class="portfolio-intro-step">
+        <figure class="portfolio-intro-visual" aria-hidden="true">
+          <img src="/assets/images/introduction/intro-01.png" alt="" />
+        </figure>
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title">브랜드의<br />시작을 함께</h2>
+          <p class="portfolio-intro-sub">
+            업종과 무드에 딱 맞는 AI 기반 비즈니스<br />아이덴티티 구축
+            시스템.
+          </p>
         </div>
       </div>
-    </section>
-
-    <!-- 4. 소개 섹션 -->
-    <section class="intro-section" id="intro">
-      <div class="intro-fixed-viewport">
-        <div class="intro-center-box active" data-index="0">
-          <h2 class="intro-main-title">디자인의<br />경계를 허물다</h2>
-          <p class="intro-sub-desc">
+      <div class="portfolio-intro-step">
+        <figure class="portfolio-intro-visual" aria-hidden="true">
+          <img src="/assets/images/introduction/intro-02.png" alt="" />
+        </figure>
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title">디자인의<br />경계를 허물다</h2>
+          <p class="portfolio-intro-sub">
             전문 디자이너의 움직임을 모티브로<br />정교한 타이포그래피 완성.
           </p>
         </div>
-        <div class="intro-center-box" data-index="1">
-          <h2 class="intro-main-title">원클릭<br />에셋 연동</h2>
-          <p class="intro-sub-desc">
+      </div>
+      <div class="portfolio-intro-step">
+        <figure class="portfolio-intro-visual" aria-hidden="true">
+          <img src="/assets/images/introduction/intro-03.png" alt="" />
+        </figure>
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title">원클릭<br />에셋 연동</h2>
+          <p class="portfolio-intro-sub">
             로고 생성과 동시에 내 브랜드에 필요한<br />모든 브랜딩 요소가
             실시간으로 매칭.
           </p>
         </div>
-        <div class="intro-center-box" data-index="2">
-          <h2 class="intro-main-title">Automated<br />Design System</h2>
-          <p class="intro-sub-desc">
+      </div>
+      <div class="portfolio-intro-step">
+        <figure class="portfolio-intro-visual" aria-hidden="true">
+          <img src="/assets/images/introduction/intro-04.png" alt="" />
+        </figure>
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title">Automated<br />Design System</h2>
+          <p class="portfolio-intro-sub">
             브랜드의 배색 가이드와 타이포그래피 규칙을<br />자로 잰 듯 완벽한
             시스템으로 자동 구축합니다.
           </p>
         </div>
-        <div class="intro-center-box" data-index="3">
-          <h2 class="intro-main-title">Vector-Based<br />Logo Generator</h2>
-          <p class="intro-sub-desc">
+      </div>
+      <div class="portfolio-intro-step">
+        <figure class="portfolio-intro-visual" aria-hidden="true">
+          <video src="/assets/videos/introduction/intro-05.mp4" autoplay muted loop playsinline
+            preload="metadata"></video>
+        </figure>
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title">
+            Vector-Based<br />Logo Generator
+          </h2>
+          <p class="portfolio-intro-sub">
             업종 맞춤형 로고 상품을 실시간 생성하고,<br />인쇄에 즉시 쓰는
             무손실 벡터(SVG)로 변환합니다.
           </p>
         </div>
-        <div class="intro-center-box" data-index="4">
-          <h2 class="intro-main-title">Unified Brand<br />Kit Builder</h2>
-          <p class="intro-sub-desc">
+      </div>
+      <div class="portfolio-intro-step">
+        <figure class="portfolio-intro-visual" aria-hidden="true">
+          <img src="/assets/images/introduction/intro-06.png" alt="" />
+        </figure>
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title">
+            Unified Brand<br />Kit Builder
+          </h2>
+          <p class="portfolio-intro-sub">
             완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고<br />최종 PDF
             브랜드 가이드북으로 통합 소장합니다.
           </p>
         </div>
-        <div class="intro-center-box" data-index="5">
-          <h2 class="intro-main-title-end">
-            상상이 현실이 되는 곳,<br /><span class="intro-title-nowrap"
-              >당신의 브랜드를 디자인해 보세요.</span
-            >
-          </h2>
-          <p class="intro-sub-desc">
-            완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고 최종 PDF 브랜드
-            가이드북으로 통합 소장합니다.
-          </p>
-          <button class="intro-btn">디자인 시작하기</button>
-        </div>
       </div>
-    </section>
-
-    <!-- 5. 생성된 로고 무한 루프 섹션 -->
-    <div
-      class="logo-marquee-section"
-      aria-label="Branding Fit portfolio logo roll"
-    >
-      <div class="marquee-track">
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo1.png"
-            alt="Branding Fit rolling logo 1"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo2.png"
-            alt="Branding Fit rolling logo 2"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo3.png"
-            alt="Branding Fit rolling logo 3"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo4.png"
-            alt="Branding Fit rolling logo 4"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo5.png"
-            alt="Branding Fit rolling logo 5"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo6.png"
-            alt="Branding Fit rolling logo 6"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo7.png"
-            alt="Branding Fit rolling logo 7"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo8.png"
-            alt="Branding Fit rolling logo 8"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo9.png"
-            alt="Branding Fit rolling logo 9"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo10.png"
-            alt="Branding Fit rolling logo 10"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo11.png"
-            alt="Branding Fit rolling logo 11"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo12.png"
-            alt="Branding Fit rolling logo 12"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo13.png"
-            alt="Branding Fit rolling logo 13"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo14.png"
-            alt="Branding Fit rolling logo 14"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo15.png"
-            alt="Branding Fit rolling logo 15"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo16.png"
-            alt="Branding Fit rolling logo 16"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo17.png"
-            alt="Branding Fit rolling logo 17"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo18.png"
-            alt="Branding Fit rolling logo 18"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo19.png"
-            alt="Branding Fit rolling logo 19"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo20.png"
-            alt="Branding Fit rolling logo 20"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo21.png"
-            alt="Branding Fit rolling logo 21"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo22.png"
-            alt="Branding Fit rolling logo 22"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo23.png"
-            alt="Branding Fit rolling logo 23"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo1.png"
-            alt="Branding Fit rolling logo 1"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo2.png"
-            alt="Branding Fit rolling logo 2"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo3.png"
-            alt="Branding Fit rolling logo 3"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo4.png"
-            alt="Branding Fit rolling logo 4"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo5.png"
-            alt="Branding Fit rolling logo 5"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo6.png"
-            alt="Branding Fit rolling logo 6"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo7.png"
-            alt="Branding Fit rolling logo 7"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo8.png"
-            alt="Branding Fit rolling logo 8"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo9.png"
-            alt="Branding Fit rolling logo 9"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo10.png"
-            alt="Branding Fit rolling logo 10"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo11.png"
-            alt="Branding Fit rolling logo 11"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo12.png"
-            alt="Branding Fit rolling logo 12"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo13.png"
-            alt="Branding Fit rolling logo 13"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo14.png"
-            alt="Branding Fit rolling logo 14"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo15.png"
-            alt="Branding Fit rolling logo 15"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo16.png"
-            alt="Branding Fit rolling logo 16"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo17.png"
-            alt="Branding Fit rolling logo 17"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo18.png"
-            alt="Branding Fit rolling logo 18"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo19.png"
-            alt="Branding Fit rolling logo 19"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo20.png"
-            alt="Branding Fit rolling logo 20"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo21.png"
-            alt="Branding Fit rolling logo 21"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo22.png"
-            alt="Branding Fit rolling logo 22"
-            loading="lazy"
-          />
-        </div>
-        <div class="marquee-item">
-          <img
-            src="/assets/images/rollingbar/logo23.png"
-            alt="Branding Fit rolling logo 23"
-            loading="lazy"
-          />
+      <div class="portfolio-intro-step">
+        <div class="portfolio-intro-copy">
+          <h2 class="portfolio-intro-title-end">
+            상상이 현실이 되는 곳,<br /><span class="intro-title-nowrap">당신의 브랜드를 디자인해 보세요.</span>
+          </h2>
+          <p class="portfolio-intro-sub">
+            완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고 최종 PDF
+            브랜드 가이드북으로 통합 소장합니다.
+          </p>
+          <button type="button" class="intro-btn portfolio-intro-cta">
+            디자인 시작하기
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- 6. 디자인 의뢰하기 섹션 -->
-    <section class="cta-section" id="cta">
-      <div class="cta-bg" aria-hidden="true">
-        <video
-          class="cta-bg-video"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-        >
-          <source src="/assets/videos/main-request-bg.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="cta-content">
-        <h2 class="cta-title">
-          <span class="cta-title-line">생성된 브랜드를</span>
-          <span class="cta-title-line">더욱 멋지게 만들어보세요.</span>
-        </h2>
-        <button type="button" class="cta-button">디자인 의뢰하기</button>
-      </div>
-    </section>
-
-    <!-- 7. 푸터 -->
-    <footer>
-      <div class="footer-left">
-        <div class="footer-logo">Branding Fit</div>
-        <div class="footer-info">
-          대표: Artifex &nbsp;|&nbsp; 개인정보책임관리자: Artifex<br />
-          사업자등록번호: 123-45-67890
+    <div class="portfolio-track" id="portfolioTrack">
+      <!-- 1번 포트폴리오 -->
+      <div class="portfolio-item">
+        <div class="portfolio-logo-box">
+          <img src="/assets/images/portfolio/urbanvibe/home-preview.jpg" alt="URBANVIBE 로고" />
         </div>
-      </div>
-      <div class="footer-right">
-        <div class="footer-menu-col">
-          <h4>서비스 안내</h4>
-          <ul>
-            <li><a href="#">포트폴리오</a></li>
-            <li><a href="#">디자인 생성하기</a></li>
-            <li><a href="#">디자인 의뢰서 작성하기</a></li>
-            <li><a href="#">소개</a></li>
-          </ul>
-        </div>
-        <div class="footer-menu-col">
-          <h4>고객지원</h4>
-          <ul>
-            <li><a href="#/privacy" target="_parent">개인정보처리방침</a></li>
-            <li><a href="#/terms" target="_parent">이용약관</a></li>
-          </ul>
-        </div>
-        <div class="footer-contact">
-          <div>
-            Office. <span>인천 부평구 광장로 16, 부평역사쇼핑몰 6층</span>
+        <div class="portfolio-info-row">
+          <div class="portfolio-text-group">
+            <h3>UrbanVibe</h3>
+            <p>도시의 리듬을 입는 스트릿의 자유.</p>
           </div>
-          <div>Tel. <span>070-1234-5678</span></div>
-          <div>Mail. <span>logofit@brandingfit.kr</span></div>
-          <div>Business. <span>123-45-67890</span></div>
+          <a href="#/portfolio/urbanvibe" class="portfolio-detail-link portfolio-preview-link"
+            data-portfolio-id="urbanvibe">자세히 보러가기</a>
         </div>
       </div>
-    </footer>
+      <!-- 2번 포트폴리오 -->
+      <div class="portfolio-item">
+        <div class="portfolio-logo-box">
+          <img src="/assets/images/portfolio/godash/home-preview.jpg" alt="GoDash 로고" />
+        </div>
+        <div class="portfolio-info-row">
+          <div class="portfolio-text-group">
+            <h3>GoDash</h3>
+            <p>속도감과 역동성을 담은 모빌리티 브랜드.</p>
+          </div>
+          <a href="#/portfolio/godash" class="portfolio-detail-link portfolio-preview-link"
+            data-portfolio-id="godash">자세히 보러가기</a>
+        </div>
+      </div>
+      <!-- 3번 포트폴리오 -->
+      <div class="portfolio-item">
+        <div class="portfolio-logo-box">
+          <img src="/assets/images/portfolio/skillupbase/home-preview.jpg" alt="SkillUpBase 로고" />
+        </div>
+        <div class="portfolio-info-row">
+          <div class="portfolio-text-group">
+            <h3>SkillUpBase</h3>
+            <p>크리에이터의 꿈이 실력이 되는 곳.</p>
+          </div>
+          <a href="#/portfolio/skillupbase" class="portfolio-detail-link portfolio-preview-link"
+            data-portfolio-id="skillupbase">자세히 보러가기</a>
+        </div>
+      </div>
+      <!-- 4번째: View more portfolio 영역 -->
+      <div class="portfolio-item portfolio-closing-panel">
+        <div class="view-more-section">
+          <h3 class="view-more-title">View more portfolio</h3>
+          <p class="view-more-subtitle">더 많은 포트폴리오를 확인하세요</p>
+          <a href="#/portfolio" class="portfolio-detail-link portfolio-more-link">포트폴리오 더보기</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- JavaScript 로직 구현 -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        gsap.registerPlugin(ScrollTrigger);
+  <!-- 4. 소개 섹션 -->
+  <section class="intro-section" id="intro">
+    <div class="intro-fixed-viewport">
+      <div class="intro-center-box active" data-index="0">
+        <h2 class="intro-main-title">디자인의<br />경계를 허물다</h2>
+        <p class="intro-sub-desc">
+          전문 디자이너의 움직임을 모티브로<br />정교한 타이포그래피 완성.
+        </p>
+      </div>
+      <div class="intro-center-box" data-index="1">
+        <h2 class="intro-main-title">원클릭<br />에셋 연동</h2>
+        <p class="intro-sub-desc">
+          로고 생성과 동시에 내 브랜드에 필요한<br />모든 브랜딩 요소가
+          실시간으로 매칭.
+        </p>
+      </div>
+      <div class="intro-center-box" data-index="2">
+        <h2 class="intro-main-title">Automated<br />Design System</h2>
+        <p class="intro-sub-desc">
+          브랜드의 배색 가이드와 타이포그래피 규칙을<br />자로 잰 듯 완벽한
+          시스템으로 자동 구축합니다.
+        </p>
+      </div>
+      <div class="intro-center-box" data-index="3">
+        <h2 class="intro-main-title">Vector-Based<br />Logo Generator</h2>
+        <p class="intro-sub-desc">
+          업종 맞춤형 로고 상품을 실시간 생성하고,<br />인쇄에 즉시 쓰는
+          무손실 벡터(SVG)로 변환합니다.
+        </p>
+      </div>
+      <div class="intro-center-box" data-index="4">
+        <h2 class="intro-main-title">Unified Brand<br />Kit Builder</h2>
+        <p class="intro-sub-desc">
+          완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고<br />최종 PDF
+          브랜드 가이드북으로 통합 소장합니다.
+        </p>
+      </div>
+      <div class="intro-center-box" data-index="5">
+        <h2 class="intro-main-title-end">
+          상상이 현실이 되는 곳,<br /><span class="intro-title-nowrap">당신의 브랜드를 디자인해 보세요.</span>
+        </h2>
+        <p class="intro-sub-desc">
+          완성된 로고를 명함, 쇼핑백, 패키지에 실시간 매칭하고 최종 PDF 브랜드
+          가이드북으로 통합 소장합니다.
+        </p>
+        <button class="intro-btn">디자인 시작하기</button>
+      </div>
+    </div>
+  </section>
 
-        const portfolioSection = document.getElementById("portfolio");
-        const track = document.getElementById("portfolioTrack");
-        const portfolioBackdrop = document.getElementById("portfolioBackdrop");
-        const portfolioIntroHandoff = document.getElementById(
-          "portfolioIntroHandoff",
+  <!-- 5. 생성된 로고 무한 루프 섹션 -->
+  <div class="logo-marquee-section" aria-label="Branding Fit portfolio logo roll">
+    <div class="marquee-track">
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo1.png" alt="Branding Fit rolling logo 1" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo2.png" alt="Branding Fit rolling logo 2" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo3.png" alt="Branding Fit rolling logo 3" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo4.png" alt="Branding Fit rolling logo 4" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo5.png" alt="Branding Fit rolling logo 5" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo6.png" alt="Branding Fit rolling logo 6" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo7.png" alt="Branding Fit rolling logo 7" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo8.png" alt="Branding Fit rolling logo 8" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo9.png" alt="Branding Fit rolling logo 9" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo10.png" alt="Branding Fit rolling logo 10" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo11.png" alt="Branding Fit rolling logo 11" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo12.png" alt="Branding Fit rolling logo 12" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo13.png" alt="Branding Fit rolling logo 13" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo14.png" alt="Branding Fit rolling logo 14" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo15.png" alt="Branding Fit rolling logo 15" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo16.png" alt="Branding Fit rolling logo 16" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo17.png" alt="Branding Fit rolling logo 17" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo18.png" alt="Branding Fit rolling logo 18" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo19.png" alt="Branding Fit rolling logo 19" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo20.png" alt="Branding Fit rolling logo 20" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo21.png" alt="Branding Fit rolling logo 21" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo22.png" alt="Branding Fit rolling logo 22" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo23.png" alt="Branding Fit rolling logo 23" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo1.png" alt="Branding Fit rolling logo 1" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo2.png" alt="Branding Fit rolling logo 2" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo3.png" alt="Branding Fit rolling logo 3" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo4.png" alt="Branding Fit rolling logo 4" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo5.png" alt="Branding Fit rolling logo 5" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo6.png" alt="Branding Fit rolling logo 6" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo7.png" alt="Branding Fit rolling logo 7" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo8.png" alt="Branding Fit rolling logo 8" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo9.png" alt="Branding Fit rolling logo 9" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo10.png" alt="Branding Fit rolling logo 10" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo11.png" alt="Branding Fit rolling logo 11" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo12.png" alt="Branding Fit rolling logo 12" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo13.png" alt="Branding Fit rolling logo 13" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo14.png" alt="Branding Fit rolling logo 14" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo15.png" alt="Branding Fit rolling logo 15" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo16.png" alt="Branding Fit rolling logo 16" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo17.png" alt="Branding Fit rolling logo 17" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo18.png" alt="Branding Fit rolling logo 18" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo19.png" alt="Branding Fit rolling logo 19" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo20.png" alt="Branding Fit rolling logo 20" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo21.png" alt="Branding Fit rolling logo 21" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo22.png" alt="Branding Fit rolling logo 22" loading="lazy" />
+      </div>
+      <div class="marquee-item">
+        <img src="/assets/images/rollingbar/logo23.png" alt="Branding Fit rolling logo 23" loading="lazy" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 디자인 의뢰하기 섹션 -->
+  <section class="cta-section" id="cta">
+    <div class="cta-bg" aria-hidden="true">
+      <video class="cta-bg-video" autoplay muted loop playsinline preload="metadata">
+        <source src="/assets/videos/main-request-bg.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="cta-content">
+      <h2 class="cta-title">
+        <span class="cta-title-line">생성된 브랜드를</span>
+        <span class="cta-title-line">더욱 멋지게 만들어보세요.</span>
+      </h2>
+      <button type="button" class="cta-button">디자인 의뢰하기</button>
+    </div>
+  </section>
+
+  <!-- 7. 푸터 -->
+  <footer>
+    <div class="footer-left">
+      <div class="footer-logo">Branding Fit</div>
+      <div class="footer-info">
+        대표: Artifex &nbsp;|&nbsp; 개인정보책임관리자: Artifex<br />
+        사업자등록번호: 123-45-67890
+      </div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-menu-col">
+        <h4>서비스 안내</h4>
+        <ul>
+          <li><a href="#">포트폴리오</a></li>
+          <li><a href="#">디자인 생성하기</a></li>
+          <li><a href="#">디자인 의뢰서 작성하기</a></li>
+          <li><a href="#">소개</a></li>
+        </ul>
+      </div>
+      <div class="footer-menu-col">
+        <h4>고객지원</h4>
+        <ul>
+          <li><a href="#/privacy" target="_parent">개인정보처리방침</a></li>
+          <li><a href="#/terms" target="_parent">이용약관</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <div>
+          Office. <span>인천 부평구 광장로 16, 부평역사쇼핑몰 6층</span>
+        </div>
+        <div>Tel. <span>070-1234-5678</span></div>
+        <div>Mail. <span>logofit@brandingfit.kr</span></div>
+        <div>Business. <span>123-45-67890</span></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript 로직 구현 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const portfolioSection = document.getElementById("portfolio");
+      const track = document.getElementById("portfolioTrack");
+      const portfolioBackdrop = document.getElementById("portfolioBackdrop");
+      const portfolioIntroHandoff = document.getElementById(
+        "portfolioIntroHandoff",
+      );
+      const portfolioIntroSteps = document.querySelectorAll(
+        ".portfolio-intro-step",
+      );
+      const portfolioTitle = portfolioSection.querySelector(
+        ".portfolio-fixed-title",
+      );
+
+      // 1. 포트폴리오 가로 스크롤: View more 패널이 사라진 뒤 중앙 텍스트만 같은 자리에서 소개 문구로 전환
+      function getPortfolioEndX() {
+        const target = track.querySelector(".view-more-section");
+        if (!target) return -(track.scrollWidth - window.innerWidth);
+        const targetRight = target.offsetLeft + target.offsetWidth;
+        return -targetRight;
+      }
+
+      function getPortfolioScrollDistance() {
+        return (
+          Math.abs(getPortfolioEndX()) +
+          window.innerHeight * (1.68 + portfolioIntroSteps.length * 2.05)
         );
-        const portfolioIntroSteps = document.querySelectorAll(
-          ".portfolio-intro-step",
-        );
-        const portfolioTitle = portfolioSection.querySelector(
-          ".portfolio-fixed-title",
-        );
+      }
 
-        // 1. 포트폴리오 가로 스크롤: View more 패널이 사라진 뒤 중앙 텍스트만 같은 자리에서 소개 문구로 전환
-        function getPortfolioEndX() {
-          const target = track.querySelector(".view-more-section");
-          if (!target) return -(track.scrollWidth - window.innerWidth);
-          const targetRight = target.offsetLeft + target.offsetWidth;
-          return -targetRight;
-        }
+      gsap.set(portfolioBackdrop, {
+        clipPath: "inset(0 0 0 100%)",
+        opacity: 0,
+        x: 72,
+      });
+      gsap.set(portfolioIntroHandoff, {
+        opacity: 1,
+      });
+      gsap.set(portfolioIntroSteps, {
+        opacity: 0,
+        y: 0,
+        pointerEvents: "none",
+      });
 
-        function getPortfolioScrollDistance() {
-          return (
-            Math.abs(getPortfolioEndX()) +
-            window.innerHeight * (1.68 + portfolioIntroSteps.length * 2.05)
-          );
-        }
+      const portfolioTimeline = gsap.timeline({
+        scrollTrigger: {
+          id: "landing-portfolio",
+          trigger: portfolioSection,
+          start: "top top",
+          end: () => "+=" + getPortfolioScrollDistance(),
+          pin: true,
+          scrub: 1.5,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
 
-        gsap.set(portfolioBackdrop, {
-          clipPath: "inset(0 0 0 100%)",
-          opacity: 0,
-          x: 72,
-        });
-        gsap.set(portfolioIntroHandoff, {
+      window.brandingFitLandingPortfolioTimeline = portfolioTimeline;
+
+      portfolioTimeline.to(
+        track,
+        {
+          x: () => getPortfolioEndX(),
+          ease: "power1.inOut",
+          duration: 0.72,
+        },
+        0,
+      );
+
+      portfolioTimeline.to(
+        portfolioBackdrop,
+        {
+          clipPath: "inset(0 0 0 0%)",
           opacity: 1,
-        });
-        gsap.set(portfolioIntroSteps, {
+          x: 0,
+          ease: "power2.out",
+          duration: 0.22,
+        },
+        0.5,
+      );
+
+      portfolioTimeline.to(
+        portfolioTitle,
+        {
           opacity: 0,
-          y: 0,
-          pointerEvents: "none",
-        });
+          ease: "power1.out",
+          duration: 0.18,
+        },
+        0.58,
+      );
 
-        const portfolioTimeline = gsap.timeline({
-          scrollTrigger: {
-            id: "landing-portfolio",
-            trigger: portfolioSection,
-            start: "top top",
-            end: () => "+=" + getPortfolioScrollDistance(),
-            pin: true,
-            scrub: 1.5,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+      portfolioTimeline.to(
+        portfolioBackdrop,
+        {
+          opacity: 0,
+          y: -18,
+          ease: "power1.inOut",
+          duration: 0.2,
+        },
+        0.78,
+      );
 
-        window.brandingFitLandingPortfolioTimeline = portfolioTimeline;
-
-        portfolioTimeline.to(
-          track,
-          {
-            x: () => getPortfolioEndX(),
-            ease: "power1.inOut",
-            duration: 0.72,
-          },
-          0,
-        );
+      portfolioIntroSteps.forEach((step, index) => {
+        const startAt = 0.9 + index * 0.56;
+        const copy = step.querySelector(".portfolio-intro-copy");
+        const visual = step.querySelector(".portfolio-intro-visual");
 
         portfolioTimeline.to(
-          portfolioBackdrop,
+          step,
           {
-            clipPath: "inset(0 0 0 0%)",
             opacity: 1,
-            x: 0,
-            ease: "power2.out",
-            duration: 0.22,
+            pointerEvents: "auto",
+            ease: "power1.inOut",
+            duration: 0.16,
           },
-          0.5,
+          startAt,
         );
-
-        portfolioTimeline.to(
-          portfolioTitle,
+        portfolioTimeline.fromTo(
+          copy,
           {
             opacity: 0,
-            ease: "power1.out",
-            duration: 0.18,
+            y: 0,
           },
-          0.58,
-        );
-
-        portfolioTimeline.to(
-          portfolioBackdrop,
           {
-            opacity: 0,
-            y: -18,
+            opacity: 1,
+            y: 0,
             ease: "power1.inOut",
             duration: 0.2,
           },
-          0.78,
+          startAt,
         );
-
-        portfolioIntroSteps.forEach((step, index) => {
-          const startAt = 0.9 + index * 0.56;
-          const copy = step.querySelector(".portfolio-intro-copy");
-          const visual = step.querySelector(".portfolio-intro-visual");
-
-          portfolioTimeline.to(
-            step,
-            {
-              opacity: 1,
-              pointerEvents: "auto",
-              ease: "power1.inOut",
-              duration: 0.16,
-            },
-            startAt,
-          );
+        if (visual) {
           portfolioTimeline.fromTo(
-            copy,
+            visual,
             {
               opacity: 0,
-              y: 0,
+              y: () => window.innerHeight * 0.72 + visual.offsetHeight,
             },
             {
               opacity: 1,
-              y: 0,
-              ease: "power1.inOut",
-              duration: 0.2,
+              y: () => -(window.innerHeight * 0.72 + visual.offsetHeight),
+              ease: "none",
+              duration: 0.56,
             },
             startAt,
           );
-          if (visual) {
-            portfolioTimeline.fromTo(
-              visual,
-              {
-                opacity: 0,
-                y: () => window.innerHeight * 0.72 + visual.offsetHeight,
-              },
-              {
-                opacity: 1,
-                y: () => -(window.innerHeight * 0.72 + visual.offsetHeight),
-                ease: "none",
-                duration: 0.56,
-              },
-              startAt,
-            );
-            portfolioTimeline.to(
-              visual,
-              {
-                opacity: 0,
-                ease: "power1.inOut",
-                duration: 0.16,
-              },
-              startAt + 0.42,
-            );
-          }
           portfolioTimeline.to(
-            copy,
+            visual,
             {
               opacity: 0,
-              y: 0,
-              ease: "power1.inOut",
-              duration: 0.2,
-            },
-            startAt + 0.4,
-          );
-          portfolioTimeline.to(
-            step,
-            {
-              opacity: 0,
-              pointerEvents: "none",
               ease: "power1.inOut",
               duration: 0.16,
             },
-            startAt + 0.48,
+            startAt + 0.42,
           );
-        });
-
-        // 2. 입력창 업종 드롭다운 및 키워드 버튼/인풋 토글 로직
-        const industryBtn = document.getElementById("industryDropdownBtn");
-        const industryMenu = document.getElementById("industryMenu");
-        const selectedIndustryText = document.getElementById(
-          "selectedIndustryText",
+        }
+        portfolioTimeline.to(
+          copy,
+          {
+            opacity: 0,
+            y: 0,
+            ease: "power1.inOut",
+            duration: 0.2,
+          },
+          startAt + 0.4,
         );
+        portfolioTimeline.to(
+          step,
+          {
+            opacity: 0,
+            pointerEvents: "none",
+            ease: "power1.inOut",
+            duration: 0.16,
+          },
+          startAt + 0.48,
+        );
+      });
+
+      // 2. 입력창 업종 드롭다운 및 키워드 버튼/인풋 토글 로직
+      const industryBtn = document.getElementById("industryDropdownBtn");
+      const industryMenu = document.getElementById("industryMenu");
+      const selectedIndustryText = document.getElementById(
+        "selectedIndustryText",
+      );
+      const customIndustryInput = document.getElementById(
+        "customIndustryInput",
+      );
+
+      const keywordToggleBtn = document.getElementById("keywordToggleBtn");
+      const keywordInputBox = document.getElementById("keywordInputBox");
+      const keywordTagsWrapper =
+        document.getElementById("keywordTagsWrapper");
+      const keywordDivider = document.getElementById("keywordDivider");
+
+      let selectedKeywords = [];
+
+      industryBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        industryMenu.classList.toggle("show");
+      });
+
+      function hideCustomIndustryInput() {
+        customIndustryInput.value = "";
+        customIndustryInput.style.display = "none";
+      }
+
+      industryMenu.querySelectorAll(".dropdown-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const value = item.textContent.trim();
+          selectedIndustryText.textContent = value;
+          industryMenu.classList.remove("show");
+          if (item.dataset.customIndustryTrigger === "true") {
+            customIndustryInput.style.display = "block";
+            customIndustryInput.focus();
+          } else {
+            hideCustomIndustryInput();
+          }
+        });
+      });
+
+      window.addEventListener("click", () => {
+        industryMenu.classList.remove("show");
+      });
+
+      // 키워드 버튼 클릭 시 인풋창으로 전환
+      keywordToggleBtn.addEventListener("click", () => {
+        keywordToggleBtn.style.display = "none";
+        keywordInputBox.style.display = "block";
+        keywordInputBox.focus();
+      });
+
+      // 키워드 직접 입력 (Enter 키 입력 시 태그 생성, 최대 3개)
+      keywordInputBox.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          const val = keywordInputBox.value.trim();
+          if (!val) return;
+
+          if (selectedKeywords.includes(val)) {
+            alert("이미 추가된 키워드입니다.");
+            return;
+          }
+          if (selectedKeywords.length >= 3) {
+            alert("키워드는 최대 3개까지만 생성할 수 있습니다.");
+            return;
+          }
+
+          selectedKeywords.push(val);
+          keywordInputBox.value = "";
+          keywordInputBox.style.display = "none";
+          keywordToggleBtn.style.display = "block"; // 다시 버튼 형태로 복귀 가능하도록
+          renderKeywords();
+        }
+      });
+
+      function renderKeywords() {
+        keywordTagsWrapper.innerHTML = "";
+        if (selectedKeywords.length > 0) {
+          keywordDivider.style.display = "block";
+        } else {
+          keywordDivider.style.display = "none";
+        }
+
+        selectedKeywords.forEach((kw, index) => {
+          const tag = document.createElement("div");
+          tag.className = "keyword-tag";
+          tag.innerHTML = `${kw} <span class="remove-tag" onclick="window.removeKeywordItem(${index})">×</span>`;
+          keywordTagsWrapper.appendChild(tag);
+        });
+      }
+
+      window.removeKeywordItem = function (index) {
+        selectedKeywords.splice(index, 1);
+        renderKeywords();
+      };
+
+      window.resetHeroInputs = function () {
+        const brandInput = document.getElementById("brandInput");
+        if (brandInput) brandInput.value = "";
+        selectedIndustryText.textContent = "업종";
+        industryMenu.classList.remove("show");
+        hideCustomIndustryInput();
+        selectedKeywords = [];
+        keywordInputBox.value = "";
+        keywordInputBox.style.display = "none";
+        keywordToggleBtn.style.display = "block";
+        renderKeywords();
+      };
+    });
+  </script>
+
+  <script>
+    window.brandingFitBridge = (() => {
+      const parentWindow =
+        window.parent && window.parent !== window ? window.parent : window;
+      const parentDocument = parentWindow.document || document;
+
+      function navigate(hash) {
+        parentWindow.location.hash = hash;
+        if (parentWindow !== window) {
+          parentWindow.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+
+      function setLocalHash(sectionId) {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, "", "#" + sectionId);
+        } else {
+          window.location.hash = sectionId;
+        }
+      }
+
+      function getPortfolioScrollTrigger() {
+        return typeof ScrollTrigger !== "undefined" && ScrollTrigger.getById
+          ? ScrollTrigger.getById("landing-portfolio")
+          : null;
+      }
+
+      function getPortfolioTimeline() {
+        return window.brandingFitLandingPortfolioTimeline || null;
+      }
+
+      function scrollWindowTo(y) {
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+      }
+
+      function scrollToHeroSection() {
+        const heroSection = document.querySelector(".hero-section");
+        const targetY = heroSection
+          ? heroSection.getBoundingClientRect().top + window.scrollY
+          : 0;
+        scrollWindowTo(targetY);
+      }
+
+      function scrollToSection(sectionId) {
+        if (typeof ScrollTrigger !== "undefined") {
+          ScrollTrigger.refresh();
+        }
+
+        const portfolioTrigger = getPortfolioScrollTrigger();
+        if (sectionId === "portfolio" && portfolioTrigger) {
+          setLocalHash(sectionId);
+          scrollWindowTo(portfolioTrigger.start);
+          return;
+        }
+
+        const portfolioTimeline = getPortfolioTimeline();
+        if (sectionId === "intro" && portfolioTrigger && portfolioTimeline) {
+          setLocalHash(sectionId);
+          const introStartTime = 0.92;
+          const totalDuration = portfolioTimeline.duration() || 1;
+          const introProgress = Math.min(
+            0.98,
+            introStartTime / totalDuration,
+          );
+          const targetY =
+            portfolioTrigger.start +
+            (portfolioTrigger.end - portfolioTrigger.start) * introProgress;
+          scrollWindowTo(targetY);
+          return;
+        }
+
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+
+        setLocalHash(sectionId);
+        const targetY = section.getBoundingClientRect().top + window.scrollY;
+        scrollWindowTo(targetY);
+      }
+
+      function getSelectedIndustry() {
+        const selectedText = document.getElementById("selectedIndustryText");
+        const value = selectedText ? selectedText.textContent.trim() : "";
         const customIndustryInput = document.getElementById(
           "customIndustryInput",
         );
+        const customValue = customIndustryInput
+          ? customIndustryInput.value.trim()
+          : "";
+        if (value === "기타" && customValue) return customValue;
+        return value && value !== "업종" ? value : "";
+      }
 
-        const keywordToggleBtn = document.getElementById("keywordToggleBtn");
-        const keywordInputBox = document.getElementById("keywordInputBox");
-        const keywordTagsWrapper =
-          document.getElementById("keywordTagsWrapper");
-        const keywordDivider = document.getElementById("keywordDivider");
-
-        let selectedKeywords = [];
-
-        industryBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          industryMenu.classList.toggle("show");
-        });
-
-        function hideCustomIndustryInput() {
-          customIndustryInput.value = "";
-          customIndustryInput.style.display = "none";
-        }
-
-        industryMenu.querySelectorAll(".dropdown-item").forEach((item) => {
-          item.addEventListener("click", () => {
-            const value = item.textContent.trim();
-            selectedIndustryText.textContent = value;
-            industryMenu.classList.remove("show");
-            if (item.dataset.customIndustryTrigger === "true") {
-              customIndustryInput.style.display = "block";
-              customIndustryInput.focus();
-            } else {
-              hideCustomIndustryInput();
-            }
-          });
-        });
-
-        window.addEventListener("click", () => {
-          industryMenu.classList.remove("show");
-        });
-
-        // 키워드 버튼 클릭 시 인풋창으로 전환
-        keywordToggleBtn.addEventListener("click", () => {
-          keywordToggleBtn.style.display = "none";
-          keywordInputBox.style.display = "block";
-          keywordInputBox.focus();
-        });
-
-        // 키워드 직접 입력 (Enter 키 입력 시 태그 생성, 최대 3개)
-        keywordInputBox.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            const val = keywordInputBox.value.trim();
-            if (!val) return;
-
-            if (selectedKeywords.includes(val)) {
-              alert("이미 추가된 키워드입니다.");
-              return;
-            }
-            if (selectedKeywords.length >= 3) {
-              alert("키워드는 최대 3개까지만 생성할 수 있습니다.");
-              return;
-            }
-
-            selectedKeywords.push(val);
-            keywordInputBox.value = "";
-            keywordInputBox.style.display = "none";
-            keywordToggleBtn.style.display = "block"; // 다시 버튼 형태로 복귀 가능하도록
-            renderKeywords();
-          }
-        });
-
-        function renderKeywords() {
-          keywordTagsWrapper.innerHTML = "";
-          if (selectedKeywords.length > 0) {
-            keywordDivider.style.display = "block";
-          } else {
-            keywordDivider.style.display = "none";
-          }
-
-          selectedKeywords.forEach((kw, index) => {
-            const tag = document.createElement("div");
-            tag.className = "keyword-tag";
-            tag.innerHTML = `${kw} <span class="remove-tag" onclick="window.removeKeywordItem(${index})">×</span>`;
-            keywordTagsWrapper.appendChild(tag);
-          });
-        }
-
-        window.removeKeywordItem = function (index) {
-          selectedKeywords.splice(index, 1);
-          renderKeywords();
-        };
-
-        window.resetHeroInputs = function () {
-          const brandInput = document.getElementById("brandInput");
-          if (brandInput) brandInput.value = "";
-          selectedIndustryText.textContent = "업종";
-          industryMenu.classList.remove("show");
-          hideCustomIndustryInput();
-          selectedKeywords = [];
-          keywordInputBox.value = "";
-          keywordInputBox.style.display = "none";
-          keywordToggleBtn.style.display = "block";
-          renderKeywords();
-        };
-      });
-    </script>
-
-    <script>
-      window.brandingFitBridge = (() => {
-        const parentWindow =
-          window.parent && window.parent !== window ? window.parent : window;
-        const parentDocument = parentWindow.document || document;
-
-        function navigate(hash) {
-          parentWindow.location.hash = hash;
-          if (parentWindow !== window) {
-            parentWindow.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }
-
-        function setLocalHash(sectionId) {
-          if (window.history && window.history.replaceState) {
-            window.history.replaceState(null, "", "#" + sectionId);
-          } else {
-            window.location.hash = sectionId;
-          }
-        }
-
-        function getPortfolioScrollTrigger() {
-          return typeof ScrollTrigger !== "undefined" && ScrollTrigger.getById
-            ? ScrollTrigger.getById("landing-portfolio")
-            : null;
-        }
-
-        function getPortfolioTimeline() {
-          return window.brandingFitLandingPortfolioTimeline || null;
-        }
-
-        function scrollWindowTo(y) {
-          window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
-        }
-
-        function scrollToHeroSection() {
-          const heroSection = document.querySelector(".hero-section");
-          const targetY = heroSection
-            ? heroSection.getBoundingClientRect().top + window.scrollY
-            : 0;
-          scrollWindowTo(targetY);
-        }
-
-        function scrollToSection(sectionId) {
-          if (typeof ScrollTrigger !== "undefined") {
-            ScrollTrigger.refresh();
-          }
-
-          const portfolioTrigger = getPortfolioScrollTrigger();
-          if (sectionId === "portfolio" && portfolioTrigger) {
-            setLocalHash(sectionId);
-            scrollWindowTo(portfolioTrigger.start);
-            return;
-          }
-
-          const portfolioTimeline = getPortfolioTimeline();
-          if (sectionId === "intro" && portfolioTrigger && portfolioTimeline) {
-            setLocalHash(sectionId);
-            const introStartTime = 0.92;
-            const totalDuration = portfolioTimeline.duration() || 1;
-            const introProgress = Math.min(
-              0.98,
-              introStartTime / totalDuration,
-            );
-            const targetY =
-              portfolioTrigger.start +
-              (portfolioTrigger.end - portfolioTrigger.start) * introProgress;
-            scrollWindowTo(targetY);
-            return;
-          }
-
-          const section = document.getElementById(sectionId);
-          if (!section) return;
-
-          setLocalHash(sectionId);
-          const targetY = section.getBoundingClientRect().top + window.scrollY;
-          scrollWindowTo(targetY);
-        }
-
-        function getSelectedIndustry() {
-          const selectedText = document.getElementById("selectedIndustryText");
-          const value = selectedText ? selectedText.textContent.trim() : "";
-          const customIndustryInput = document.getElementById(
-            "customIndustryInput",
-          );
-          const customValue = customIndustryInput
-            ? customIndustryInput.value.trim()
-            : "";
-          if (value === "기타" && customValue) return customValue;
-          return value && value !== "업종" ? value : "";
-        }
-
-        function getKeywords() {
-          return Array.from(
-            document.querySelectorAll("#keywordTagsWrapper .keyword-tag"),
+      function getKeywords() {
+        return Array.from(
+          document.querySelectorAll("#keywordTagsWrapper .keyword-tag"),
+        )
+          .map((tag) =>
+            tag.childNodes[0]
+              ? tag.childNodes[0].textContent.trim()
+              : tag.textContent.replace("×", "").trim(),
           )
-            .map((tag) =>
-              tag.childNodes[0]
-                ? tag.childNodes[0].textContent.trim()
-                : tag.textContent.replace("×", "").trim(),
-            )
-            .filter(Boolean)
-            .slice(0, 3);
+          .filter(Boolean)
+          .slice(0, 3);
+      }
+
+      function resetHeroInputsAndGoHome() {
+        if (typeof window.resetHeroInputs === "function") {
+          window.resetHeroInputs();
+        }
+        navigate("#/");
+        scrollToHeroSection();
+      }
+
+      // public/home.html 내 saveDraftAndOpenWorkspace 함수 교체
+
+      function saveDraftAndOpenWorkspace() {
+        const brandInput = document.getElementById("brandInput");
+        const brandName = brandInput ? brandInput.value.trim() : "";
+
+        // 1. 업종 데이터 추출
+        const selectedTextEl = document.getElementById("selectedIndustryText");
+        const selectedText = selectedTextEl ? selectedTextEl.textContent.trim() : "";
+        const customIndustryInput = document.getElementById("customIndustryInput");
+        const customVal = customIndustryInput ? customIndustryInput.value.trim() : "";
+
+        if (selectedText === "기타") {
+          sessionStorage.setItem("branding_fit_selected_category", "기타");
+          sessionStorage.setItem("branding_fit_custom_category", customVal);
+        } else if (selectedText && selectedText !== "업종") {
+          sessionStorage.setItem("branding_fit_selected_category", selectedText);
+          sessionStorage.removeItem("branding_fit_custom_category");
         }
 
-        function resetHeroInputsAndGoHome() {
-          if (typeof window.resetHeroInputs === "function") {
-            window.resetHeroInputs();
-          }
-          navigate("#/");
-          scrollToHeroSection();
+        // 2. 📍 키워드 데이터 추출 (배열 형태로 추출)
+        const keywords = getKeywords();
+
+        // 3. 로컬스토리지에 전달용 데이터 저장
+        try {
+          parentWindow.localStorage.setItem(
+            "branding_fit_home_draft",
+            JSON.stringify({
+              brandName,
+              industry: selectedText === "기타" && customVal ? customVal : (selectedText !== "업종" ? selectedText : ""),
+              keywords, // ['키워드1', '키워드2'] 형태로 저장
+            }),
+          );
+        } catch (e) { }
+
+        navigate("#/workspace");
+      }
+
+      function openPortfolioPage() {
+        navigate("#/portfolio");
+      }
+
+      function openPortfolioDetailPage(event) {
+        const id = event.currentTarget.dataset.portfolioId;
+        if (id) navigate("#/portfolio/" + id);
+      }
+
+      function openRequestPage() {
+        navigate("#/request");
+      }
+
+      function syncAuthState(authState) {
+        const loginLink = document.querySelector(".nav-auth a");
+        if (!loginLink) return;
+
+        const authenticated = Boolean(authState?.authenticated);
+        loginLink.textContent = authenticated ? "마이페이지" : "로그인";
+        loginLink.setAttribute("href", authenticated ? "#/mypage" : "#");
+        loginLink.dataset.authenticated = authenticated ? "true" : "false";
+      }
+
+      function openLogin() {
+        if (parentWindow.brandingFitAuth?.authenticated) {
+          navigate("#/mypage");
+          return;
         }
-
-        // public/home.html 내 saveDraftAndOpenWorkspace 함수 교체
-
-function saveDraftAndOpenWorkspace() {
-  const brandInput = document.getElementById("brandInput");
-  const brandName = brandInput ? brandInput.value.trim() : "";
-  
-  // 1. 업종 데이터 추출
-  const selectedTextEl = document.getElementById("selectedIndustryText");
-  const selectedText = selectedTextEl ? selectedTextEl.textContent.trim() : "";
-  const customIndustryInput = document.getElementById("customIndustryInput");
-  const customVal = customIndustryInput ? customIndustryInput.value.trim() : "";
-
-  if (selectedText === "기타") {
-    sessionStorage.setItem("branding_fit_selected_category", "기타");
-    sessionStorage.setItem("branding_fit_custom_category", customVal);
-  } else if (selectedText && selectedText !== "업종") {
-    sessionStorage.setItem("branding_fit_selected_category", selectedText);
-    sessionStorage.removeItem("branding_fit_custom_category");
-  }
-
-  // 2. 📍 키워드 데이터 추출 (배열 형태로 추출)
-  const keywords = getKeywords();
-
-  // 3. 로컬스토리지에 전달용 데이터 저장
-  try {
-    parentWindow.localStorage.setItem(
-      "branding_fit_home_draft",
-      JSON.stringify({
-        brandName,
-        industry: selectedText === "기타" && customVal ? customVal : (selectedText !== "업종" ? selectedText : ""),
-        keywords, // ['키워드1', '키워드2'] 형태로 저장
-      }),
-    );
-  } catch (e) {}
-
-  navigate("#/workspace");
-}
-
-        function openPortfolioPage() {
-          navigate("#/portfolio");
+        if (parentWindow.brandingFitAuth?.openLoginModal) {
+          parentWindow.brandingFitAuth.openLoginModal();
+          return;
         }
-
-        function openPortfolioDetailPage(event) {
-          const id = event.currentTarget.dataset.portfolioId;
-          if (id) navigate("#/portfolio/" + id);
+        if (parentWindow.openLoginModal) {
+          parentWindow.openLoginModal();
+          return;
         }
-
-        function openRequestPage() {
-          navigate("#/request");
+        const loginButton =
+          parentDocument.getElementById("nav-login-trigger");
+        if (loginButton) {
+          loginButton.click();
         }
+      }
 
-        function syncAuthState(authState) {
-          const loginLink = document.querySelector(".nav-auth a");
-          if (!loginLink) return;
-
-          const authenticated = Boolean(authState?.authenticated);
-          loginLink.textContent = authenticated ? "마이페이지" : "로그인";
-          loginLink.setAttribute("href", authenticated ? "#/mypage" : "#");
-          loginLink.dataset.authenticated = authenticated ? "true" : "false";
-        }
-
-        function openLogin() {
-          if (parentWindow.brandingFitAuth?.authenticated) {
-            navigate("#/mypage");
-            return;
-          }
-          if (parentWindow.brandingFitAuth?.openLoginModal) {
-            parentWindow.brandingFitAuth.openLoginModal();
-            return;
-          }
-          if (parentWindow.openLoginModal) {
-            parentWindow.openLoginModal();
-            return;
-          }
-          const loginButton =
-            parentDocument.getElementById("nav-login-trigger");
-          if (loginButton) {
-            loginButton.click();
-          }
-        }
-
-        function bindClick(selector, handler) {
-          document.querySelectorAll(selector).forEach((element) => {
-            element.addEventListener("click", (event) => {
-              event.preventDefault();
-              handler(event);
-            });
+      function bindClick(selector, handler) {
+        document.querySelectorAll(selector).forEach((element) => {
+          element.addEventListener("click", (event) => {
+            event.preventDefault();
+            handler(event);
           });
-        }
+        });
+      }
 
-        function init() {
-          bindClick(".nav-logo", resetHeroInputsAndGoHome);
-          bindClick(".nav-links a[href='#portfolio']", () =>
-            scrollToSection("portfolio"),
-          );
-          bindClick(".nav-links a[href='#intro']", () =>
-            scrollToSection("intro"),
-          );
-          bindClick(".nav-links a[href='#cta']", () => scrollToSection("cta"));
-          bindClick(".nav-auth a", openLogin);
-          bindClick(
-            ".nav-auth button, #submitBrand, .intro-btn",
-            saveDraftAndOpenWorkspace,
-          );
-          bindClick(".portfolio-preview-link", openPortfolioDetailPage);
-          bindClick(".portfolio-more-link", openPortfolioPage);
-          bindClick(".cta-button", openRequestPage);
-          bindClick(".footer-menu-col a", (event) => {
-            const href = event.currentTarget.getAttribute("href") || "";
-            if (href.startsWith("#/")) {
-              navigate(href);
-              return;
-            }
-
-            const text = event.currentTarget.textContent.trim();
-            if (text.includes("포트폴리오")) scrollToSection("portfolio");
-            else if (text.includes("생성")) saveDraftAndOpenWorkspace();
-            else if (text.includes("소개")) scrollToSection("intro");
-            else if (text.includes("의뢰")) scrollToSection("cta");
-          });
-          syncAuthState(parentWindow.brandingFitAuth);
-        }
-
-        return {
-          init,
-          navigate,
-          scrollToSection,
-          scrollToHeroSection,
-          resetHeroInputsAndGoHome,
-          saveDraftAndOpenWorkspace,
-          openLogin,
-          openPortfolioPage,
-          openPortfolioDetailPage,
-          openRequestPage,
-          syncAuthState,
-        };
-      })();
-
-      document.addEventListener("DOMContentLoaded", () => {
-        window.brandingFitBridge.init();
-
-        const mobileMenuButton = document.getElementById(
-          "home-mobile-menu-toggle",
+      function init() {
+        bindClick(".nav-logo", resetHeroInputsAndGoHome);
+        bindClick(".nav-links a[href='#portfolio']", () =>
+          scrollToSection("portfolio"),
         );
-        const mobileMenu = document.querySelector("nav .nav-menu");
+        bindClick(".nav-links a[href='#intro']", () =>
+          scrollToSection("intro"),
+        );
+        bindClick(".nav-links a[href='#cta']", () => scrollToSection("cta"));
+        bindClick(".nav-auth a", openLogin);
+        bindClick(
+          ".nav-auth button, #submitBrand, .intro-btn",
+          saveDraftAndOpenWorkspace,
+        );
+        bindClick(".portfolio-preview-link", openPortfolioDetailPage);
+        bindClick(".portfolio-more-link", openPortfolioPage);
+        bindClick(".cta-button", openRequestPage);
+        bindClick(".footer-menu-col a", (event) => {
+          const href = event.currentTarget.getAttribute("href") || "";
+          if (href.startsWith("#/")) {
+            navigate(href);
+            return;
+          }
 
-        if (mobileMenuButton && mobileMenu) {
-          const closeMobileMenu = () => {
-            mobileMenuButton.classList.remove("active");
-            mobileMenu.classList.remove("mobile-open");
-            mobileMenuButton.setAttribute("aria-expanded", "false");
-          };
+          const text = event.currentTarget.textContent.trim();
+          if (text.includes("포트폴리오")) scrollToSection("portfolio");
+          else if (text.includes("생성")) saveDraftAndOpenWorkspace();
+          else if (text.includes("소개")) scrollToSection("intro");
+          else if (text.includes("의뢰")) scrollToSection("cta");
+        });
+        syncAuthState(parentWindow.brandingFitAuth);
+      }
 
-          mobileMenuButton.addEventListener("click", () => {
-            const isOpen = mobileMenu.classList.toggle("mobile-open");
-            mobileMenuButton.classList.toggle("active", isOpen);
-            mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
-          });
+      return {
+        init,
+        navigate,
+        scrollToSection,
+        scrollToHeroSection,
+        resetHeroInputsAndGoHome,
+        saveDraftAndOpenWorkspace,
+        openLogin,
+        openPortfolioPage,
+        openPortfolioDetailPage,
+        openRequestPage,
+        syncAuthState,
+      };
+    })();
 
-          mobileMenu.querySelectorAll("a, button").forEach((element) => {
-            element.addEventListener("click", closeMobileMenu);
-          });
+    document.addEventListener("DOMContentLoaded", () => {
+      window.brandingFitBridge.init();
 
-          window.addEventListener("resize", () => {
-            if (window.innerWidth > 640) closeMobileMenu();
-          });
-        }
-      });
-    </script>
-    <!-- public/home.html 맨 아래쪽 -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const startBtn = document.getElementById('btn-start-design'); // 실제 디자인 시작하기 버튼 ID
-    const categorySelect = document.getElementById('hero-category-select'); // 업종 드롭다운 ID
-    const categoryCustomInput = document.getElementById('hero-category-custom'); // 기타 직접입력 input ID
+      const mobileMenuButton = document.getElementById(
+        "home-mobile-menu-toggle",
+      );
+      const mobileMenu = document.querySelector("nav .nav-menu");
 
-    if (startBtn) {
-      startBtn.addEventListener('click', () => {
-        let selectedCategory = categorySelect ? categorySelect.value : '';
+      if (mobileMenuButton && mobileMenu) {
+        const closeMobileMenu = () => {
+          mobileMenuButton.classList.remove("active");
+          mobileMenu.classList.remove("mobile-open");
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+        };
 
-        // 기타를 선택했거나 직접 입력창이 활성화된 경우
-        if (selectedCategory === '기타' || selectedCategory === 'custom') {
-          const customVal = categoryCustomInput ? categoryCustomInput.value.trim() : '기타';
-          sessionStorage.setItem('branding_fit_custom_category', customVal);
-          sessionStorage.setItem('branding_fit_selected_category', '기타');
-        } else {
-          sessionStorage.setItem('branding_fit_selected_category', selectedCategory);
-          sessionStorage.removeItem('branding_fit_custom_category');
-        }
-      });
-    }
-  });
-</script>
+        mobileMenuButton.addEventListener("click", () => {
+          const isOpen = mobileMenu.classList.toggle("mobile-open");
+          mobileMenuButton.classList.toggle("active", isOpen);
+          mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        mobileMenu.querySelectorAll("a, button").forEach((element) => {
+          element.addEventListener("click", closeMobileMenu);
+        });
+
+        window.addEventListener("resize", () => {
+          if (window.innerWidth > 640) closeMobileMenu();
+        });
+      }
+    });
+  </script>
+  <!-- public/home.html 맨 아래쪽 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const startBtn = document.getElementById('btn-start-design'); // 실제 디자인 시작하기 버튼 ID
+      const categorySelect = document.getElementById('hero-category-select'); // 업종 드롭다운 ID
+      const categoryCustomInput = document.getElementById('hero-category-custom'); // 기타 직접입력 input ID
+
+      if (startBtn) {
+        startBtn.addEventListener('click', () => {
+          let selectedCategory = categorySelect ? categorySelect.value : '';
+
+          // 기타를 선택했거나 직접 입력창이 활성화된 경우
+          if (selectedCategory === '기타' || selectedCategory === 'custom') {
+            const customVal = categoryCustomInput ? categoryCustomInput.value.trim() : '기타';
+            sessionStorage.setItem('branding_fit_custom_category', customVal);
+            sessionStorage.setItem('branding_fit_selected_category', '기타');
+          } else {
+            sessionStorage.setItem('branding_fit_selected_category', selectedCategory);
+            sessionStorage.removeItem('branding_fit_custom_category');
+          }
+        });
+      }
+    });
+  </script>
 </body>
-  </body>
+</body>
+
 </html>
