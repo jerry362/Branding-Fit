@@ -5688,3 +5688,97 @@ footer,
     }
   }
 }
+
+/* 📍 마이페이지 하단 의뢰하기 섹션(mypage-final-cta) 모바일 중앙 정렬 & 글자 잘림 방지 */
+@media (max-width: 900px) {
+  /* 1. 전체 바깥 감싸는 박스 100% 중앙 정렬 */
+  .mypage-final-cta {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 2. 내부 컨텐츠(텍스트 + 버튼) 중앙 정렬 및 여백 정돈 */
+  .mypage-final-cta-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important; /* 자식 요소 가로 중앙 정렬 */
+    justify-content: center !important; /* 세로 중앙 정렬 */
+    text-align: center !important; /* 텍스트 중앙 정렬 */
+    padding: 40px 20px !important; /* 좌우 20px 안쪽 여백을 줘서 글자 잘림 방지 */
+    box-sizing: border-box !important;
+  }
+
+  /* 3. "생성된 브랜드를 더욱 멋지게 만들어보세요" 제목 글자 가독성 & 줄바꿈 처리 */
+  .mypage-final-cta-content h2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: center !important;
+    font-size: 20px !important; /* 📍 모바일 폭에 맞게 글자 크기 적절히 축소 */
+    line-height: 1.4 !important;
+    word-break: keep-all !important; /* 단어 단위로 깔끔하게 줄바꿈 */
+    margin: 0 0 20px 0 !important;
+  }
+
+  /* 4. "디자인 의뢰하기" 버튼 중앙 정렬 */
+  .mypage-final-cta-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* 📍 모바일 화면(900px 이하): 푸터 '서비스 안내'를 '고객지원'과 동일하게 왼쪽 세로 수직 정렬 */
+@media (max-width: 900px) {
+  /* 1. 푸터 전체 및 메뉴 컬럼 왼쪽 정렬 통일 */
+  footer,
+  #app-footer,
+  .site-footer,
+  .footer-right,
+  .footer-menu-col {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important; /* 모든 요소 왼쪽 정렬 */
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  /* 2. '서비스 안내' 및 '고객지원' 리스트(ul) 세로 정렬 지정 */
+  .footer-menu-col ul {
+    display: flex !important;
+    flex-direction: column !important; /* 📍 세로 수직 나열 */
+    align-items: flex-start !important; /* 📍 왼쪽 끝 정렬 */
+    justify-content: flex-start !important;
+    gap: 12px !important; /* 항목 간 위아래 간격 */
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    width: 100% !important;
+  }
+
+  /* 3. 메뉴 리스트 항목(li) 및 링크(a) 왼쪽 정렬 및 스타일 초기화 */
+  .footer-menu-col ul li,
+  .footer-menu-col ul li a {
+    display: block !important;
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important; /* 타일 배경색 제거 */
+    border-radius: 0 !important;
+    color: #888888 !important; /* 고객지원 링크 글자색과 동일 지정 */
+    font-size: 14px !important;
+    width: auto !important;
+  }
+
+  .footer-menu-col ul li a:hover {
+    color: #ffffff !important;
+  }
+}
