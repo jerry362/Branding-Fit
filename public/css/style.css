@@ -5283,18 +5283,28 @@ footer,
 
   .footer-left,
   .site-footer-brand {
-    gap: 30px;
+    gap: 16px;
   }
 
   .footer-right,
   .site-footer-links {
     flex-direction: column;
-    gap: 44px;
+    gap: 36px;
+  }
+
+  .footer-menu-col h4,
+  .site-footer h3 {
+    margin-bottom: 12px;
+  }
+
+  .footer-menu-col ul {
+    gap: 8px;
   }
 
   .footer-contact,
   .site-footer address {
     padding-top: 4px;
+    gap: 8px;
   }
 }
 
