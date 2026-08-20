@@ -5879,3 +5879,11 @@ body:not(.home-route) #nav-start.active:hover {
     display: none !important;
   }
 }
+
+/* 웹(데스크톱) 사이즈에서 모바일 전용 메뉴 버튼 완전히 숨김 */
+@media (min-width: 641px) {
+  #home-mobile-menu-toggle,
+  .home-mobile-menu-btn {
+    display: none !important;
+  }
+}
