@@ -246,9 +246,11 @@ p {
   max-width: 100%;
   overflow: hidden;
   position: relative;
-  background: linear-gradient(180deg,
-      var(--bg-main) 0%,
-      var(--bg-surface) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--bg-main) 0%,
+    var(--bg-surface) 100%
+  );
 }
 
 .section-title {
@@ -519,10 +521,12 @@ p {
   font-family: var(--font-title);
   font-size: 3.2rem;
   font-weight: 800;
-  background: linear-gradient(135deg,
-      var(--primary-03),
-      var(--primary-01),
-      var(--accent-pink));
+  background: linear-gradient(
+    135deg,
+    var(--primary-03),
+    var(--primary-01),
+    var(--accent-pink)
+  );
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -561,7 +565,6 @@ p {
 
 /* Responsive Styles for Steps */
 @media (max-width: 768px) {
-
   .step-card,
   .step-card.reverse {
     flex-direction: column;
@@ -784,10 +787,12 @@ footer {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(90deg,
-      rgba(5, 8, 13, 0.34),
-      rgba(5, 8, 13, 0.1) 46%,
-      rgba(10, 10, 12, 0.42));
+  background: linear-gradient(
+    90deg,
+    rgba(5, 8, 13, 0.34),
+    rgba(5, 8, 13, 0.1) 46%,
+    rgba(10, 10, 12, 0.42)
+  );
   pointer-events: none;
 }
 
@@ -859,7 +864,7 @@ footer {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.login-modal-panel>* {
+.login-modal-panel > * {
   position: relative;
   z-index: 1;
 }
@@ -1137,9 +1142,11 @@ footer {
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg,
-      var(--text-primary),
-      var(--text-secondary));
+  background: linear-gradient(
+    135deg,
+    var(--text-primary),
+    var(--text-secondary)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -1248,9 +1255,11 @@ select.form-control optgroup {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  background: linear-gradient(135deg,
-      rgba(99, 102, 241, 0.2),
-      rgba(139, 92, 246, 0.2));
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.2),
+    rgba(139, 92, 246, 0.2)
+  );
   border: 1px solid rgba(139, 92, 246, 0.3);
   padding: 0.3rem 0.7rem;
   border-radius: 100px;
@@ -1578,9 +1587,11 @@ select.form-control optgroup {
 
 .chatbot-header {
   padding: 1rem 1.2rem;
-  background: linear-gradient(135deg,
-      rgba(99, 102, 241, 0.15),
-      rgba(79, 70, 229, 0.15));
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.15),
+    rgba(79, 70, 229, 0.15)
+  );
   border-bottom: 1px solid var(--border-glass);
   display: flex;
   justify-content: space-between;
@@ -1766,7 +1777,6 @@ select.form-control optgroup {
 }
 
 @keyframes typingPulse {
-
   0%,
   100% {
     transform: translateY(0);
@@ -2110,7 +2120,7 @@ select.form-control optgroup {
     grid-template-columns: 1fr;
   }
 
-  .legal-table>div {
+  .legal-table > div {
     grid-template-columns: 1fr;
     gap: 8px;
   }
@@ -2140,12 +2150,20 @@ select.form-control optgroup {
     height: 2px;
     border-radius: 999px;
     background: #ffffff;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      opacity 0.2s ease;
   }
 
-  .home-mobile-menu-btn.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .home-mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-  .home-mobile-menu-btn.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .home-mobile-menu-btn.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .home-mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .home-mobile-menu-btn.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
 
   .nav-menu {
     position: fixed;
@@ -2166,7 +2184,9 @@ select.form-control optgroup {
     opacity: 0;
     transform: translateY(-12px);
     pointer-events: none;
-    transition: opacity 0.22s ease, transform 0.22s ease;
+    transition:
+      opacity 0.22s ease,
+      transform 0.22s ease;
     z-index: 1001;
   }
 
@@ -2324,8 +2344,8 @@ body.home-route {
   display: block;
 }
 
-body.home-route>header,
-body.home-route>#app-footer {
+body.home-route > header,
+body.home-route > #app-footer {
   display: none;
 }
 
@@ -2365,7 +2385,7 @@ body.mypage-route {
   background: #121212;
 }
 
-body.mypage-route>header {
+body.mypage-route > header {
   background: transparent !important;
   border-bottom: 0;
   box-shadow: none;
@@ -2374,7 +2394,7 @@ body.mypage-route>header {
 }
 
 @media (min-width: 768px) {
-  body:not(.home-route)>header {
+  body:not(.home-route) > header {
     position: fixed;
     top: 0;
     left: 0;
@@ -2633,12 +2653,16 @@ body.mypage-route>header {
   align-items: center;
   justify-content: center;
   background:
-    radial-gradient(circle at 28% 22%,
+    radial-gradient(
+      circle at 28% 22%,
       color-mix(in srgb, var(--tile-accent) 16%, transparent),
-      transparent 34%),
-    linear-gradient(135deg,
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
       var(--tile-bg),
-      color-mix(in srgb, var(--tile-bg) 84%, #ffffff));
+      color-mix(in srgb, var(--tile-bg) 84%, #ffffff)
+    );
   transition:
     transform 0.25s ease,
     filter 0.25s ease;
@@ -2706,9 +2730,11 @@ body.portfolio-modal-open {
   display: grid;
   grid-template-columns: 210px minmax(0, 1fr);
   grid-template-rows: 120px minmax(0, 1fr);
-  background: linear-gradient(135deg,
-      rgba(72, 70, 68, 0.58),
-      rgba(45, 43, 42, 0.42));
+  background: linear-gradient(
+    135deg,
+    rgba(72, 70, 68, 0.58),
+    rgba(45, 43, 42, 0.42)
+  );
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-bottom: 0;
   border-radius: 28px 28px 0 0;
@@ -3055,7 +3081,7 @@ body.portfolio-modal-open {
   color: rgba(255, 255, 255, 0.88);
 }
 
-.brand-detail-portfolio-modal .portfolio-story-panel>p:first-child {
+.brand-detail-portfolio-modal .portfolio-story-panel > p:first-child {
   margin: 0 0 18px;
   color: rgba(188, 182, 255, 0.94);
   font-size: 15px;
@@ -3864,7 +3890,7 @@ body.portfolio-modal-open {
 }
 
 @media (max-width: 767px) {
-  body:not(.home-route)>header {
+  body:not(.home-route) > header {
     height: 64px;
   }
 
@@ -4008,7 +4034,7 @@ body.portfolio-modal-open {
   letter-spacing: 0;
 }
 
-.legal-hero>p:not(.public-eyebrow) {
+.legal-hero > p:not(.public-eyebrow) {
   max-width: 760px;
   color: rgba(255, 255, 255, 0.72);
   font-size: clamp(17px, 1.5vw, 22px);
@@ -4101,7 +4127,7 @@ body.portfolio-modal-open {
   border-top: 1px solid rgba(255, 255, 255, 0.16);
 }
 
-.legal-table>div {
+.legal-table > div {
   display: grid;
   grid-template-columns: 180px minmax(0, 1fr);
   gap: 24px;
@@ -4165,16 +4191,20 @@ body.portfolio-modal-open {
   display: grid;
   place-items: center;
   background:
-    linear-gradient(45deg,
+    linear-gradient(
+      45deg,
       rgba(255, 255, 255, 0.9) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(255, 255, 255, 0.9) 75%),
-    linear-gradient(45deg,
+      rgba(255, 255, 255, 0.9) 75%
+    ),
+    linear-gradient(
+      45deg,
       rgba(255, 255, 255, 0.9) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(255, 255, 255, 0.9) 75%),
+      rgba(255, 255, 255, 0.9) 75%
+    ),
     #e8e8e8;
   background-position:
     0 0,
@@ -4455,9 +4485,11 @@ body.portfolio-modal-open {
 .mypage-divider {
   height: 2px;
   margin: 48px 0 58px;
-  background: linear-gradient(90deg,
-      rgba(255, 255, 255, 0.86),
-      rgba(255, 255, 255, 0.08));
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.86),
+    rgba(255, 255, 255, 0.08)
+  );
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
@@ -4555,16 +4587,20 @@ body.portfolio-modal-open {
   height: 96px;
   border-radius: 12px;
   background:
-    linear-gradient(45deg,
+    linear-gradient(
+      45deg,
       rgba(255, 255, 255, 0.9) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(255, 255, 255, 0.9) 75%),
-    linear-gradient(45deg,
+      rgba(255, 255, 255, 0.9) 75%
+    ),
+    linear-gradient(
+      45deg,
       rgba(255, 255, 255, 0.9) 25%,
       transparent 25%,
       transparent 75%,
-      rgba(255, 255, 255, 0.9) 75%),
+      rgba(255, 255, 255, 0.9) 75%
+    ),
     #e9e9e9;
   background-position:
     0 0,
@@ -4702,10 +4738,12 @@ body.portfolio-modal-open {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 50%,
+    radial-gradient(
+      circle at 50% 50%,
       rgba(236, 72, 153, 0.18) 0%,
       rgba(79, 70, 229, 0.16) 45%,
-      transparent 78%),
+      transparent 78%
+    ),
     rgba(10, 10, 12, 0.38);
 }
 
@@ -4982,7 +5020,7 @@ body.legal-route {
   background: #0a0a0a;
 }
 
-body.legal-route>header {
+body.legal-route > header {
   position: static;
   height: 80px;
   background: #0a0a0a;
@@ -5008,7 +5046,7 @@ body.legal-route .gnb {
 }
 
 @media (max-width: 767px) {
-  body.legal-route>header {
+  body.legal-route > header {
     height: 64px;
   }
 
@@ -5022,7 +5060,7 @@ body.legal-route .gnb {
 }
 
 /* Final legal-page overrides: break global header rules and keep the rail in the document flow. */
-body.legal-route:not(.home-route)>header {
+body.legal-route:not(.home-route) > header {
   position: relative;
   top: auto;
   left: auto;
@@ -5084,7 +5122,7 @@ body.legal-route .legal-shell {
 }
 
 @media (max-width: 767px) {
-  body.legal-route:not(.home-route)>header {
+  body.legal-route:not(.home-route) > header {
     height: 64px;
   }
 
@@ -5174,7 +5212,6 @@ footer,
 
 /* 모바일/태블릿 반응형 */
 @media (max-width: 900px) {
-
   footer,
   #app-footer {
     min-height: auto;
@@ -5187,7 +5224,6 @@ footer,
 }
 
 @media (max-width: 640px) {
-
   footer,
   #app-footer {
     flex-direction: column;
@@ -5326,7 +5362,6 @@ footer,
 
 /* 반응형 모바일 예외 처리 */
 @media (max-width: 1024px) {
-
   footer,
   #app-footer,
   .site-footer {
@@ -5340,7 +5375,6 @@ footer,
 }
 
 @media (max-width: 768px) {
-
   footer,
   #app-footer,
   .site-footer {
@@ -5492,10 +5526,7 @@ footer,
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,
-      0,
-      0,
-      0.5);
+  background: rgba(0, 0, 0, 0.5);
   /* 동영상 위를 살짝 어둡게 처리하여 글자 가독성 확보 */
   display: flex;
   flex-direction: column;
@@ -5563,7 +5594,6 @@ footer,
 
 /* 📍 모바일 화면(900px 이하) 전용 레이아웃 정상화 */
 @media (max-width: 900px) {
-
   /* 1. 모바일에서 제목이 목록을 가리지 않도록 위치 정상화 */
   #view-portfolio .portfolio-title-block,
   #view-portfolio .portfolio-hero-title,
@@ -5592,7 +5622,6 @@ footer,
 
 /* 모바일 전용: 의뢰하기 섹션 강제 중앙 정렬 */
 @media (max-width: 900px) {
-
   /* 의뢰하기 버튼을 포함하는 모바일 세션 감싸는 박스 전체 */
   section:has(a[href*="request"]),
   section:has(button[onclick*="request"]),
@@ -5625,13 +5654,9 @@ footer,
 
 /* 모바일 화면(900px 이하) 로그인 모달창 배경 투명도 조절 */
 @media (max-width: 900px) {
-
   /* 1. 모달 팝업 바깥쪽 전체 배경 (동영상이 더 비치게 반투명화) */
   .modal-overlay {
-    background: rgba(8,
-        11,
-        16,
-        0.25) !important;
+    background: rgba(8, 11, 16, 0.25) !important;
     /* 📍 기존 0.6 -> 0.3으로 줄여 뒷배경 비침 강조 */
     backdrop-filter: blur(5px) !important;
     /* 블러(흐림) 정도도 살짝 줄여 동영상이 잘 보이게 설정 */
@@ -5639,19 +5664,13 @@ footer,
 
   /* 2. 로그인 모달 카드 자체 검은색 배경톤 투명도 조절 */
   .login-modal-card {
-    background: rgba(10,
-        10,
-        12,
-        0.25) !important;
+    background: rgba(10, 10, 12, 0.25) !important;
     /* 📍 기존 0.48 -> 0.25로 조절 */
   }
 
   /* 3. 모바일용 로그인 입력 패널 배경톤 투명도 조절 */
   .login-modal-panel {
-    background: rgba(14,
-        14,
-        15,
-        0.6) !important;
+    background: rgba(14, 14, 15, 0.6) !important;
     /* 📍 기존 0.98 -> 0.6으로 조절하여 뒤 동영상 비침 */
     backdrop-filter: blur(8px) !important;
   }
@@ -5713,9 +5732,8 @@ footer,
 
 /* 📍 모바일 화면(900px 이하): 포트폴리오 페이지 헤더 투명화 & 동영상 위 제목 오버레이 */
 @media (max-width: 900px) {
-
   /* 1. 포트폴리오 페이지 진입 시 네비게이션 헤더 배경 투명화 및 동영상 위 배치 */
-  body.portfolio-route>header,
+  body.portfolio-route > header,
   body.portfolio-route .gnb {
     background: transparent !important;
     backdrop-filter: none !important;
@@ -5772,7 +5790,6 @@ footer,
 
 /* 📍 마이페이지 하단 의뢰하기 섹션(mypage-final-cta) 모바일 중앙 정렬 & 글자 잘림 방지 */
 @media (max-width: 900px) {
-
   /* 1. 전체 바깥 감싸는 박스 100% 중앙 정렬 */
   .mypage-final-cta {
     width: 100% !important;
@@ -5826,11 +5843,39 @@ footer,
 
 /* PC/웹버전 전용: 포트폴리오 상세보기 모달 내부 콘텐츠 좌측 이동 설정 */
 @media (min-width: 1024px) {
-
   .portfolio-logo-blank,
   .portfolio-detail-section,
   .portfolio-detail-closing {
     /* 원하시는 위치에 맞게 -80px, -100px, -120px 등으로 조절 가능합니다. */
     transform: translateX(-50px) !important;
+  }
+}
+
+/* 📍 워크스페이스(#/workspace) 페이지 진입 시 '디자인 시작' 버튼 스타일이 변경되지 않고 메인페이지와 동일하게 유지되도록 보정 */
+body:not(.home-route) .btn-start.active,
+body:not(.home-route) #nav-start.active {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 20px !important;
+  color: #ffffff !important;
+  font-weight: 400 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* 📍 Hover 시에도 메인페이지와 동일한 퍼플 글로우 효과 유지 */
+body:not(.home-route) .btn-start.active:hover,
+body:not(.home-route) #nav-start.active:hover {
+  background: #4f46e5 !important;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.5) !important;
+  color: #ffffff !important;
+}
+
+/* 📍 데스크톱(웹) 환경에서 메인페이지를 제외한 서브페이지 네비바 '디자인 시작' 버튼 숨김 */
+@media (min-width: 641px) {
+  body:not(.home-route) header #nav-start,
+  body:not(.home-route) header .btn-start {
+    display: none !important;
   }
 }
